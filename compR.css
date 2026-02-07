@@ -1,0 +1,103 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+}
+
+/* Navbar */
+.navbar {
+  background: #ffffff;
+  padding: 15px 40px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 18px;
+  margin-right: 35px;
+}
+
+.nav-links a {
+  margin-right: 25px;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+}
+
+
+/* Container */
+.container {
+  width: 420px;
+  margin: 60px auto;
+  background: #ffffff;
+  padding: 35px 40px 40px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Form fields */
+.field {
+  margin-bottom: 18px;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(#f2f2f2, #eaeaea);
+  font-size: 14px;
+}
+
+.field textarea {
+  height: 90px;
+  resize: none;
+}
+
+/* Button */
+.btn {
+  display: block;
+  margin: 25px auto 0;
+  padding: 10px 20px;
+  background: #1f3c88;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  width: auto; /* ← key change */
+}
+
+.btn:hover {
+  background: #162f6d;
+}
+
+
+.btn:hover {
+  background: #162f6d;
+}

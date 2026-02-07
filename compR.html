@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Complaint Review</title>
+  <link rel="stylesheet" href="compR.css">
+</head>
+<body>
+
+  <nav class="navbar">
+  <div class="nav-left">
+    <div class="logo">CivicSense</div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">How it works</a>
+      <a href="#">Track Complaints</a>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>Complaint Review</h1>
+
+    <form id="reviewForm">
+      <div class="field">
+        <label>Complaint ID</label>
+        <input type="text" placeholder="Enter Complaint ID" required>
+      </div>
+
+      <div class="field">
+        <label>Complaint Description</label>
+        <textarea placeholder="Enter complaint description" required></textarea>
+      </div>
+
+      <div class="field">
+        <label>Area</label>
+        <input type="text" placeholder="Area name" required>
+      </div>
+
+      <div class="field">
+        <label>Complaint Deadline</label>
+        <input type="date" required>
+      </div>
+
+      <div class="field">
+        <label>Final Category</label>
+        <select required>
+          <option value="">Select category</option>
+          <option>Water Issue</option>
+          <option>Electricity</option>
+          <option>Road Damage</option>
+          <option>Garbage</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Final Priority</label>
+        <select required>
+          <option value="">Select priority</option>
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn">Accept & Assign</button>
+    </form>
+  </div>
+
+  <script src="compR.js"></script>
+</body>
+</html>
