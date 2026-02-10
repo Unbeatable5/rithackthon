@@ -1,2 +1,0 @@
-# CivicSense
-this is CivicSense

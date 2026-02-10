@@ -60,7 +60,8 @@ label {
   margin-top: 25px;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   padding: 14px;
   border: none;
