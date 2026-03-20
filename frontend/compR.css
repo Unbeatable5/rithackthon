@@ -1,0 +1,139 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+}
+
+/* Navbar */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    height: 80px;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.navbar a:hover {
+    color: #489c4c;
+}
+
+
+#how-it-works {
+    scroll-margin-top: 100px;
+}
+#track-complaints {
+    scroll-margin-top: 100px;
+}
+.nav-links{
+     display: flex;
+    gap: 90px;
+     position: sticky;
+     top: 0;
+      list-style: none;
+}
+
+
+    
+
+.nav-links a {
+    margin: 10px 0 0 0;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.logo {
+    color: #0d5bed ;
+    font-size:2rem;
+    font-weight: bold;
+    /* padding-bottom: ; */
+}
+.nav-bar{
+    background-color: var(--secondary-green);
+    margin: 5px 30px 0 0 ;
+    height: 40px;
+    color: var(--light-bg);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Container */
+.container {
+  width: 420px;
+  margin: 60px auto;
+  background: #ffffff;
+  padding: 35px 40px 40px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Form fields */
+.field {
+  margin-bottom: 18px;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(#f2f2f2, #eaeaea);
+  font-size: 14px;
+}
+
+.field textarea {
+  height: 90px;
+  resize: none;
+}
+
+/* Button */
+.btn {
+  display: block;
+  margin: 25px auto 0;
+  padding: 10px 20px;
+  background: #0d5bed;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  width: auto; /* ← key change */
+}
+
+.btn:hover {
+  background:#0d5bed;
+}
+
+
+.btn:hover {
+  background: #0d5bed;
+}

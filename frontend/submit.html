@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>CivicSense Complaint</title>
+  <link rel="stylesheet" href="submit.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+ <nav class="navbar">
+    <ul class="nav-links">
+      <div class="logo">CivicSense</div>
+      <a href="index.html">Home</a>
+      <a href="track.html">Track Complaints</a>
+      <a href="index.html">View Nearby Complaints</a>
+    </ul>
+  </nav>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- LEFT BOX -->
+  <div class="box">
+    
+    <h2>Submit Your Issue</h2>
+
+    <label>Complaint Title</label>
+    <input type="text" placeholder="e.g. Water Issue">
+
+    <label>Description *</label>
+    <textarea id="desc" placeholder="Describe your issue..."></textarea>
+
+    <button id="actionBtn" class="btn green" onclick="handleClick()">Continue</button>
+  </div>
+
+  <!-- MIDDLE BOX -->
+  <div class="box rightBox hidden" id="rightBox">
+
+    <h3>Complaint Details</h3>
+
+    <label>Complaint ID</label>
+    <input type="text" id="cid" readonly>
+
+    <label>Area *</label>
+    <input type="text" id="area">
+
+    <label>Category</label>
+    <input type="text" id="category" readonly>
+
+    <label>Priority</label>
+    <input type="text" id="priority" readonly>
+
+    <button class="btn blue" onclick="submitComplaint()">Submit Complaint</button>
+  </div>
+
+  <!-- RIGHT BOX -->
+  <div class="box-complaints">
+    <h3>Your Complaints</h3>
+
+    <div class="card">
+      <p><b>Water Issue</b> <button></button>View</button></p>
+      <p>Date: 12-04-2024</p>
+      <p class="status">Solved</p>
+    </div>
+
+    <div class="card">
+      <p><b>Road Issue</b> <button>View</button></p>
+      <p>Date: 10-04-2024</p>
+      <p class="status">Solved</p>
+    </div>
+
+     <div class="card">
+      <p><b>Water Issue</b> <button>View</button></p>
+      <p>Date: 12-04-2024</p>
+      <p class="status">Solved</p>
+    </div>
+
+<div class="card">
+      <p><b>Road Issue</b> <button>View</button></p>
+      <p>Date: 10-04-2024</p>
+      <p class="status">Solved</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- LOADING -->
+<div class="loading" id="loading">
+  <div class="spinner"></div>
+  <div id="aiText">CivicSense AI Checking Text...</div>
+</div>
+
+
+
+
+
+<script src="submit.js"></script>
+
+</body>
+</html>

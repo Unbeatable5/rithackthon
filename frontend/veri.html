@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CivicSense - Authority Verification</title>
+  <link rel="stylesheet" href="veri.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+        
+            <ul class="nav-links">
+                <div class="logo">CivicSense</div>
+            <a href="index.html">Home</a>
+
+            <!-- <a href="#how-it-works">How It Work</a> -->
+              <a href="track.html">Track Complaints</a>
+            </ul>
+             </nav>
+    
+<!-- MAIN -->
+<main class="container">
+  <h1>Authority Verification</h1>
+
+  <!-- FORM -->
+  <form id="verifyForm">
+    <label>Authority ID / Email</label>
+    <input
+      type="text"
+      id="authId"
+      placeholder="Enter your authority ID or email"
+      required
+    >
+
+    <label>Password</label>
+    <input
+      type="password"
+      id="password"
+      placeholder="Enter your password"
+      required
+    >
+
+    <label>Department</label>
+    <select id="department" required>
+      <option value="">Select Your Department</option>
+      <option>Water Supply</option>
+      <option>Electricity</option>
+      <option>Municipality</option>
+    </select>
+
+    <button type="submit" class="dash-btn">Verify</button>
+  </form>
+
+  <p id="msg"></p>
+</main>
+
+<script src="veri.js"></script>
+</body>
+</html>

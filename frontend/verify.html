@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Verification</title>
+  <link rel="stylesheet" href="verify.css">
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <ul class="nav-links">
+      <div class="logo">CivicSense</div>
+      <a href="index.html">Home</a>
+      <a href="track.html">Track Complaints</a>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h2>Verification</h2>
+
+    <label>Mobile Number or Email</label>
+    <input id="userInput" class="mobile" type="text" placeholder="Enter phone or email">
+
+    <button id="generateBtn" class="btn green">Generate OTP</button>
+
+    <!-- Loading -->
+    <div id="loading" class="hidden loading">Sending OTP...</div>
+
+    <!-- OTP -->
+    <div id="otpWrapper" class="otp-wrapper hidden" onclick="focusOTP()">
+      <input id="otpInput" type="text" maxlength="6" inputmode="numeric">
+      <div class="otp-boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <button id="verifyBtn" class="btn blue hidden">Verify Now</button>
+
+    <p id="timer" class="hidden"></p>
+    <p id="msg"></p>
+  </div>
+
+  <script src="verify.js"></script>
+</body>
+
+</html>
