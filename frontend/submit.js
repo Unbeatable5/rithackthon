@@ -7,6 +7,7 @@ function handleClick() {
     if (desc.trim() === "") {
         alert("Please enter a description of the issue.");
         return;
+        btn.innerText = "";
     }
 
     if (step === 1) {

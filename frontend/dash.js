@@ -16,7 +16,7 @@ function searchTable() {
 
 function viewComplaint() {
 
-  window.location.href = "compR.html";
+  window.location.href = "newdash.html";
 
 }
 

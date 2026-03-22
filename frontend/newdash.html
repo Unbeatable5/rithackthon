@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CivicSense - Complaint Details</title>
+    <link rel="stylesheet" href="newdash.css">
+</head>
+<body>
+  <nav class="navbar">
+    <ul class="nav-links">
+      <div class="logo">CivicSense</div>
+      <a href="index.html">Home</a>
+      <a href="#">Dashboard</a>
+    </ul>
+  </nav>  
+
+   
+
+    <div class="main-content">
+        <h2 class="page-title">Complaint Details</h2>
+
+        <div class="complaint-card">
+            <div class="info-grid">
+                <div class="info-item"><strong>Complaint Id:</strong> cv68dbb83e3b</div>
+                <div class="info-item"><strong>Priority:</strong> High</div>
+                <div class="info-item"><strong>Title:</strong> Electrical</div>
+                <div class="info-item"><strong>Category:</strong> Electricity</div>
+                <div class="info-item"><strong>Date Submitted:</strong> 12-04-2024</div>
+                <div class="info-item"><strong>Deadline:</strong> 14-04-2024</div>
+                <div class="info-item"><strong>Status:</strong> <span class="status-highlight">In Progress</span></div>
+                <div class="info-item"><strong>Assigned Department:</strong> MoRTH</div>
+            </div>
+
+            <div class="description-section">
+                <h3>Complaint Description</h3>
+                <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            </div>
+
+            <div class="stepper">
+                <div class="step">
+                    <div class="step-box"></div>
+                    <span>submitted</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-box"></div>
+                    <span>viewed</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-box"></div>
+                    <span>in progress</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-box empty"></div>
+                    <span>Resolved</span>
+                </div>
+            </div>
+
+            <div class="bottom-flex">
+                <div class="column-left">
+                    <p class="citizen-info"><strong>Citizen Details:</strong> 7474272419</p>
+                    <label class="label-sm">Uploaded Image</label>
+                    <div class="image-preview">
+                        <img src="photo9.jpeg" alt="Road Issue">
+                    </div>
+                    <button class="btn-download">Download ↓</button>
+                </div>
+
+                <div class="column-right">
+                    <div class="actions-border">
+                        <label class="label-sm">Actions</label>
+                        <button class="btn-viewed">Mark as Viewed</button>
+                        
+                        <div class="form-group">
+                            <label>Set Deadline</label>
+                            <input type="date" value="2027-03-29">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Update Status</label>
+                            <select>
+                                <option>In Progress</option>
+                                <option>Resolved</option>
+                            </select>
+                        </div>
+
+                        <div class="save-btn-wrapper">
+                            <button class="btn-save">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-center">
+                <form action="dash.html">
+                <button class="btn-back">Back to Dashboard</button>
+                </form>
+            </div>
+        </div>
+    </div>
+<script scr="newdash.js"></script>
+</body>
+</html>
