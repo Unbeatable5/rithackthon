@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CivicSense Complaint</title>
   <link rel="stylesheet" href="submit.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 </head>
-
 <body>
 
-<!-- NAVBAR -->
- <nav class="navbar">
+  <nav class="navbar">
     <ul class="nav-links">
       <div class="logo">CivicSense</div>
       <a href="index.html">Home</a>
@@ -19,48 +18,55 @@
     </ul>
   </nav>
 
-<!-- MAIN -->
-<div class="container">
+  <div class="container">
+    <div class="box" id="leftBox">
+      <h2>Submit Your Issue</h2>
 
-  <!-- LEFT BOX -->
-  <div class="box">
-    
-    <h2>Submit Your Issue</h2>
+      <div class="form-group">
+        <label>Complaint Title <span class="optional">(optional)</span></label>
+        <input type="text" id="title" placeholder="e.g. Broken street light">
+      </div>
 
-    <label>Complaint Title</label>
-    <input type="text" placeholder="e.g. Water Issue">
+      <div class="form-group">
+        <label>Complaint Description <span class="required">*</span></label>
+        <textarea id="desc" placeholder="Describe the issue in detail..."></textarea>
+      </div>
 
-    <label>Description *</label>
-    <textarea id="desc" placeholder="Describe your issue..."></textarea>
+      <div class="form-group">
+        <label>Upload Image <span class="optional">(optional)</span></label>
+        <div class="upload-area">
+          <span class="material-icons-outlined">upload</span>
+          <p style="font-size: .9rem;">Drag & Drop</p>
+        </div>
+      </div>
 
-    <button id="actionBtn" class="btn green" onclick="handleClick()">Continue</button>
-  </div>
+      <button id="actionBtn" class="btn green" onclick="handleClick()">Continue</button>
+    </div>
 
-  <!-- MIDDLE BOX -->
-  <div class="box rightBox hidden" id="rightBox">
+    <div class="box rightBox hidden" id="rightBox">
+      <h3>Complaint Details</h3>
+      <div class="form-group">
+        <label>Complaint ID</label>
+        <input type="text" id="cid_input" readonly>
+      </div>
+      <div class="form-group">
+        <label>Area *</label>
+        <input type="text" id="area" placeholder="area">
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <input type="text" id="category" readonly>
+      </div>
+      <div class="form-group">
+        <label>Priority</label>
+        <input type="text" id="priority" readonly>
+      </div>
+      <button class="btn blue" onclick="submitComplaint()">Submit Complaint</button>
+    </div>
 
-    <h3>Complaint Details</h3>
-
-    <label>Complaint ID</label>
-    <input type="text" id="cid" readonly>
-
-    <label>Area *</label>
-    <input type="text" id="area">
-
-    <label>Category</label>
-    <input type="text" id="category" readonly>
-
-    <label>Priority</label>
-    <input type="text" id="priority" readonly>
-
-    <button class="btn blue" onclick="submitComplaint()">Submit Complaint</button>
-  </div>
-
-  <!-- RIGHT BOX -->
-  <div class="box-complaints">
-    <h3>Your Complaints</h3>
-
-    <div class="card">
+    <div class="box-complaints">
+      <h3>Your Complaints</h3>
+      <div class="card">
       <p><b>Water Issue</b> <button>View</button></p>
       <p>Date: 12-04-2024</p>
       <p class="status">Solved</p>
@@ -83,21 +89,35 @@
       <p>Date: 10-04-2024</p>
       <p class="status">Solved</p>
     </div>
+    </div>
   </div>
 
-</div>
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <div id="aiText">CivicSense AI Checking Text...</div>
+  </div>
 
-<!-- LOADING -->
-<div class="loading" id="loading">
-  <div class="spinner"></div>
-  <div id="aiText">CivicSense AI Checking Text...</div>
-</div>
+  <div class="popup" id="popup">
+    <div class="popup-box">
+      <h2 class="success-title">Complaint Submitted</h2>
+      <p class="success-msg">
+        Your Complaint has been successfully submitted. You will receive a notification once it has been processed. Thank you for your patience!
+      </p>
+      
+      <div class="id-container">
+        <span>Complaint Id: <b id="displayID" style="color:#1E3A8A">4F6RHIG94GF</b></span>
+        <button class="copy-link" onclick="copyID()">COPY</button>
+      </div>
 
+      <div class="popup-btns">
+         <form action="newtrack.html">
+        <button class="btn blue-fill" >Track Complaint</button>
+        </form>
+        <button class="btn white-outline" onclick="closePopup()">Back to Home</button>
+      </div>
+    </div>
+  </div>
 
-
-
-
-<script src="submit.js"></script>
-
+  <script src="submit.js"></script>
 </body>
 </html>

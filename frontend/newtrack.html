@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Track Complaint Status</title>
+    <link rel="stylesheet" href="newtrack.css">
+</head>
+
+<body id="newtrack">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <ul class="nav-links">
+            <div class="logo">CivicSense</div>
+            <a href="index.html">Home</a>
+            <a href="track.html">Track Complaints</a>
+      <a href="index.html">View Nearby Complaints</a>
+
+            <!-- <a href="#how-it-works">How It Work</a> -->
+            <!-- <a href="track.html">Track Complaints</a> -->
+        </ul>
+    </nav>
+
+
+    <!-- CONTENT -->
+    <div class="container">
+        <h1>Track Complaint Status</h1>
+
+        <div class="search-box">
+            <input type="text" id="complaintId" placeholder="Complaint ID">
+            <button onclick="checkStatus()">Check</button>
+        </div>
+
+        <div id="result" style="display:none;">
+            <div class="section-title">Water Issue</div>
+
+            <div class="table-box">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Complaint ID</th>
+                            <th>Status</th>
+                            <th>Department</th>
+                            <th>Deadline</th>
+                            <th>Remaining Days</th>
+                            <th>Date</th>
+                            <th>Delayed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="cid"></td>
+                            <td id="status"></td>
+                            <td>Water Issues</td>
+                            <td>20 Aug 2026</td>
+                            <td>5</td>
+                            <td>11 Aug 2026</td>
+                            <td id="delay"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="back-btn">
+            <button onclick="goHome()">Back to Home</button>
+        </div>
+    </div>
+
+     <div class="card" id="resultCard">
+    <div class="fields">
+      <div class="field"><span class="label">Complaint Id :</span><span class="value" id="f-id">ew8debg3uy3b</span></div>
+      <div class="field"><span class="label">Priority:</span><span class="value" id="f-priority">High</span></div>
+
+      <div class="field"><span class="label">Title:</span><span class="value" id="f-title">Water Issue</span></div>
+      <div class="field"><span class="label">Category:</span><span class="value" id="f-category">Water</span></div>
+
+      <div class="field"><span class="label">Date Submitted:</span><span class="value" id="f-date">12-04-2024</span></div>
+      <div class="field"><span class="label">Deadline:</span><span class="value" id="f-deadline">14-04-2024</span></div>
+
+      <div class="field"><span class="label">Status:</span><span class="value" id="f-status">Solved</span></div>
+      <div class="field"><span class="label">Assigned Department:</span><span class="value" id="f-dept">Water</span></div>
+    </div>
+
+    <div class="desc-label">Complaint Description</div>
+    <div class="desc-text" id="f-desc">
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br> Lorem Ipsum
+      has been the industry's standard dummy text ever since the 1500s,<br> when an unknown
+      printer took a galley of type and scrambled it to make a type specimen book.
+    </div>
+
+    <!-- Stepper -->
+    <div class="stepper">
+      <div class="step">
+        <div class="step-box active"></div>
+        <div class="step-label">submitted</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-box active"></div>
+        <div class="step-label">viewed</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-box active"></div>
+        <div class="step-label">In progress</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-box active"></div>
+        <div class="step-label">Resolved</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+    <script src="newtrack.js"></script>
+
+     
+
+</body>
+
+</html>

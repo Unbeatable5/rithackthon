@@ -67,59 +67,9 @@
         </div>
     </div>
 
-    <script>
-        function checkStatus(paramId = null) {
-            const id = paramId || document.getElementById("complaintId").value.trim();
+    <script src="track.js"></script>
 
-            if (id === "") {
-                alert("Please enter Complaint ID");
-                return;
-            }
-
-            fetch('http://localhost:5000/api/complaints/track/' + id)
-                .then(res => {
-                    if (!res.ok) throw new Error("Not found");
-                    return res.json();
-                })
-                .then(complaint => {
-                    document.getElementById("result").style.display = "block";
-                    document.getElementById("cid").innerText = complaint._id;
-
-                    const statusEl = document.getElementById("status");
-                    const delayEl = document.getElementById("delay");
-
-                    statusEl.innerHTML = complaint.status;
-                    if (complaint.status.toLowerCase() === "pending") {
-                        statusEl.className = "status-pending";
-                        delayEl.innerText = "No";
-                    } else {
-                        statusEl.className = "status-resolved";
-                        delayEl.innerText = "No";
-                    }
-
-                    document.querySelector(".section-title").innerText = complaint.description || "Complaint Details";
-                    document.querySelector("tbody td:nth-child(3)").innerText = complaint.category || "General Issue";
-                })
-                .catch(err => {
-                    alert("Complaint ID not found");
-                    document.getElementById("result").style.display = "none";
-                });
-        }
-
-        window.onload = () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
-            if (id) {
-                document.getElementById("complaintId").value = id;
-                checkStatus(id);
-            }
-        };
-
-        function goHome() {
-            window.location.href = "submit.html";
-        }
-
-    </script>
+     
 
 </body>
 

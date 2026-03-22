@@ -1,87 +1,84 @@
 let step = 0;
 
 function handleClick() {
+    let btn = document.getElementById("actionBtn");
+    let desc = document.getElementById("desc").value;
 
-  let btn = document.getElementById("actionBtn");
-  let desc = document.getElementById("desc").value;
+    if (desc.trim() === "") {
+        alert("Please enter a description of the issue.");
+        return;
+    }
 
-  if (desc === "") {
-    alert("Please enter description");
-    return;
-  }
+    if (step === 1) {
+        btn.innerText = "Try with AI";
+        btn.classList.replace("green", "orange");
+        step++;
+        return;
+    }
 
-  // STEP 1 → Continue
-  if (step === 0) {
-    btn.innerText = "Try with AI";
-    btn.classList.remove("green");
-    btn.classList.add("orange");
-    step++;
-    return;
-  }
-
-  // STEP 2 → AI START
-  startAI();
+    startAI();
 }
 
 function startAI() {
+    const loading = document.getElementById("loading");
+    const aiText = document.getElementById("aiText");
+    const desc = document.getElementById("desc").value.toLowerCase();
 
-  let desc = document.getElementById("desc").value;
-  let loading = document.getElementById("loading");
-  let aiText = document.getElementById("aiText");
+    loading.style.display = "flex";
 
-  loading.style.display = "flex";
-
-  setTimeout(() => {
-    aiText.innerText = "CivicSense AI Assigning Category...";
-  }, 2000);
-
-  setTimeout(() => {
-    aiText.innerText = "CivicSense AI Giving Priority...";
-  }, 4000);
-
-  setTimeout(() => {
-
-    loading.style.display = "none";
-
-    let rightBox = document.getElementById("rightBox");
-    rightBox.classList.remove("hidden");
+    setTimeout(() => { aiText.innerText = "CivicSense AI Assigning Category..."; }, 800);
+    setTimeout(() => { aiText.innerText = "CivicSense AI Determining Priority..."; }, 1600);
 
     setTimeout(() => {
-      rightBox.classList.add("show");
-    }, 100);
+        loading.style.display = "none";
+        
+        let rightBox = document.getElementById("rightBox");
+        rightBox.classList.remove("hidden");
+        setTimeout(() => rightBox.classList.add("show"), 50);
 
-    // Generate ID
-    document.getElementById("cid").value =
-      "CS" + Math.floor(Math.random() * 100000);
+        // Generate Random ID
+        let generatedID = "4F6RHIG" + Math.floor(1000 + Math.random() * 9000) + "GF";
+        document.getElementById("cid_input").value = generatedID;
+        document.getElementById("displayID").innerText = generatedID;
 
-    let text = desc.toLowerCase();
+        // Simple AI Logic
+        let category = "General Maintenance";
+        let priority = "Medium";
 
-    let category = "General";
-    let priority = "Low";
+        if (desc.includes("water")) {
+            category = "Water Supply";
+            priority = "High";
+        } else if (desc.includes("light") || desc.includes("bulb")) {
+            category = "Street Lighting";
+            priority = "Medium";
+        } else if (desc.includes("road") || desc.includes("pothole")) {
+            category = "Road & Infrastructure";
+            priority = "High";
+        }
 
-    if (text.includes("water")) {
-      category = "Water Supply Issue";
-      priority = "High";
-    }
-    else if (text.includes("road")) {
-      category = "Road Damage";
-      priority = "Medium";
-    }
-
-    document.getElementById("category").value = category;
-    document.getElementById("priority").value = priority;
-
-  }, 6000);
+        document.getElementById("category").value = category;
+        document.getElementById("priority").value = priority;
+    }, 2500);
 }
 
 function submitComplaint() {
+    let area = document.getElementById("area").value;
+    if (area.trim() === "") {
+        alert("Please enter the area/locality.");
+        return;
+    }
+    
+    // Show the Success Popup (Image 2)
+    document.getElementById("popup").style.display = "flex";
+}
 
-  let area = document.getElementById("area").value;
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+    location.reload(); // Refresh page to reset
+}
 
-  if (area === "") {
-    alert("Please fill Area");
-    return;
-  }
-
-  alert("Complaint Submitted Successfully!");
+function copyID() {
+    let idText = document.getElementById("displayID").innerText;
+    navigator.clipboard.writeText(idText);
+    alert("Complaint ID copied: " + idText);
 }

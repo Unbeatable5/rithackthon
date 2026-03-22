@@ -60,3 +60,40 @@
         function goHome() {
             window.location.href = "submit.html";
         }
+
+
+         const complaints = {
+    "ew8debg3uy3b": {
+      id: "ew8debg3uy3b",
+      priority: "High",
+      title: "Water Issue",
+      category: "Water",
+      dateSubmitted: "12-04-2024",
+      deadline: "14-04-2024",
+      status: "Solved",
+      dept: "Water",
+      desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      step: 4
+    }
+  };
+
+  function trackComplaint() {
+    const id = document.getElementById('complaintInput').value.trim();
+    const data = complaints[id] || complaints["ew8debg3uy3b"]; // fallback to demo
+
+    document.getElementById('f-id').textContent       = data.id;
+    document.getElementById('f-priority').textContent = data.priority;
+    document.getElementById('f-title').textContent    = data.title;
+    document.getElementById('f-category').textContent = data.category;
+    document.getElementById('f-date').textContent     = data.dateSubmitted;
+    document.getElementById('f-deadline').textContent = data.deadline;
+    document.getElementById('f-status').textContent   = data.status;
+    document.getElementById('f-dept').textContent     = data.dept;
+    document.getElementById('f-desc').textContent     = data.desc;
+
+    // update stepper
+    const boxes = document.querySelectorAll('.step-box');
+    boxes.forEach((b, i) => {
+      b.classList.toggle('active', i < data.step);
+    });
+  }

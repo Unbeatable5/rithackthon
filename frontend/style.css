@@ -174,7 +174,7 @@ html {
   font-size: 90px;
   font-weight: 700;
   color: var(--primary-blue);
-  text-shadow: 0 6px 14px rgba(13, 71, 255, 0.6);
+  text-shadow: 0 6px 14px rgba(13, 71, 255, 0.4);
 }
 
 .para {
@@ -408,6 +408,7 @@ html {
   /* padding-left:30px ; */
   z-index: -1000;
   transition: 0.3s;
+   animation: slideRight 1s ease forwards;
 
 }
 
@@ -446,6 +447,7 @@ html {
   border-radius: 15px;
   z-index: -1000;
   transition: 0.3s;
+  animation: slideLeft 1s ease forwards;
 }
 
 .bound:hover {
@@ -490,6 +492,7 @@ html {
   border-radius: 15px;
   z-index: -1000;
   transition: 0.3s;
+   animation: slideRight 1s ease forwards;
 }
 
 .track:hover {
@@ -526,6 +529,7 @@ html {
   border-radius: 15px;
   z-index: -1000;
   transition: 0.3s;
+   animation: slideLeft 1s ease forwards;
 }
 
 .chatbot:hover {
@@ -552,6 +556,27 @@ html {
 }
 
 
+@keyframes slideRight{
+    0%{
+       transform: translateX(-200px);
+       opacity: 0;
+    }
+    100%{
+        transform: translateX(0);
+       opacity: 1;
+    }
+}
+
+@keyframes slideLeft{
+    0%{
+       transform: translateX(200px);
+       opacity: 0;
+    }
+    100%{
+        transform: translateX(0);
+       opacity: 1;
+    }
+}
 .how-it-works {
   padding: 50px 20px;
   background: transparent;
