@@ -26,6 +26,7 @@
       <ul class="nav-menu">
         <li class="active" id="nav-overview"><a href="#" onclick="showTab('overview', this)"><span class="material-icons-outlined">dashboard</span> Overview</a></li>
         <li id="nav-complaints"><a href="#" onclick="showTab('complaints', this)"><span class="material-icons-outlined">receipt_long</span> Complaints</a></li>
+        <li id="nav-personnel"><a href="#" onclick="showTab('personnel', this)"><span class="material-icons-outlined">engineering</span> Field Personnel</a></li>
         <li><a href="index.html"><span class="material-icons-outlined">home</span> Back to Home</a></li>
       </ul>
 
@@ -165,6 +166,24 @@
 
         </div>
 
+        <!-- FIELD PERSONNEL TAB -->
+        <div id="tab-personnel" style="display:none;">
+          <div class="page-intro" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h1>Field Personnel</h1>
+              <p>Active response teams and localized area coverage.</p>
+            </div>
+            <button class="btn-filter" style="height:fit-content;" onclick="openPersonnelModal()"><span class="material-icons-outlined">person_add</span> Add Personnel</button>
+          </div>
+          <div class="personnel-grid" id="personnelGrid">
+            <!-- Dynamic worker cards will be injected here -->
+            <div style="grid-column: span 3; padding: 40px; text-align: center; color: #64748b;">
+                <span class="material-icons-outlined" style="font-size: 48px; opacity: 0.5; animation: spin 2s linear infinite;">sync</span>
+                <p>Loading field personnel data...</p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </main>
   </div>
@@ -197,6 +216,8 @@
       document.getElementById('tab-' + name).style.display = 'block';
       document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
       el.closest('li').classList.add('active');
+      
+      if (name === 'personnel') loadPersonnel();
     }
 
     // Notification bell
@@ -289,7 +310,40 @@
         <strong style="color:#0f172a; display:block; font-size:0.95rem;">SLA Breach Detected</strong>
         <span style="color:#475569; font-size:0.83rem;"><span id="toast-count">0</span> complaint(s) not viewed within 24h — escalated to Higher Authority.</span>
       </div>
-      <button onclick="dismissToast()" style="margin-left:auto; background:none; border:none; cursor:pointer; color:#94a3b8; font-size:20px; line-height:1;">✕</button>
+      <button onclick="dismissToast()" style="margin-left:auto; background:none; border:none; cursor:pointer; color:#94a3b8; display:flex;"><span class="material-icons-outlined" style="font-size:18px;">close</span></button>
+    </div>
+  </div>
+
+  <!-- PERSONNEL MODAL (ADD/EDIT) -->
+  <div class="modal-overlay" id="personnelModal">
+    <div class="modal-content glass-modal">
+        <div class="modal-header">
+            <h2 id="modalTitle">Add Field Personnel</h2>
+            <button class="close-btn" onclick="closePersonnelModal()">&times;</button>
+        </div>
+        <form id="personnelForm" onsubmit="handlePersonnelSubmit(event)">
+            <input type="hidden" id="workerId">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="workerNameInput" required placeholder="e.g. Rajesh Kumar">
+            </div>
+            <div class="form-group">
+                <label>Employee ID</label>
+                <input type="text" id="workerEmpIdInput" required placeholder="e.g. FW-W01">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" id="workerPhoneInput" placeholder="e.g. 9876543210">
+            </div>
+            <div class="form-group">
+                <label>Assigned Areas (Comma separated)</label>
+                <input type="text" id="workerSectorsInput" placeholder="e.g. Civil Lines, Ward 4, Station Road">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-delete" onclick="closePersonnelModal()">Cancel</button>
+                <button type="submit" class="btn-view" style="width: auto; padding: 12px 25px;">Save Personnel</button>
+            </div>
+        </form>
     </div>
   </div>
 

@@ -33,33 +33,43 @@ exports.submitComplaint = async (req, res) => {
       return res.status(400).json({ error: 'Title and description required' });
     }
 
-    // AI classification
-    console.log('Calling AI Classifier...');
-    const aiResult = await classifyComplaint(`${title} ${description}`);
-    console.log('AI Result:', aiResult);
+    // AI classification or Frontend Override
+    let category = req.body.category;
+    let priority = req.body.priority;
+    let aiResult = { aiCategoryConfidence: 1, aiPriorityConfidence: 1 }; // Default for user-verified
+
+    if (!category || !priority) {
+      console.log('Backend Re-classifying (Frontend data missing)...');
+      aiResult = await classifyComplaint(`${title} ${description}`);
+      category = aiResult.category;
+      priority = aiResult.priority;
+    }
 
     // Handle uploaded images
     const images = req.files ? req.files.map(f => f.filename) : [];
-    console.log('Uploaded Images:', images);
+    console.log('[DEBUG] Received Files:', req.files ? req.files.length : 0);
 
     // Map Category to Department
     const deptMap = {
-      'water': 'WATER',
-      'road': 'ROAD',
-      'electrical': 'ELECTRICAL',
-      'sanitation': 'SANITATION'
+      'water': 'water',
+      'road': 'road',
+      'electrical': 'electrical',
+      'sanitation': 'sanitation',
+      'garbage': 'sanitation',
+      'noise': 'administration',
+      'other': 'administration'
     };
-    const assignedDept = deptMap[aiResult.category] || 'GENERAL';
+    const assignedDept = deptMap[category.toLowerCase()] || 'administration';
 
     console.log(`Creating Complaint in MongoDB (Dept: ${assignedDept})...`);
     const complaint = await Complaint.create({
       citizen:             req.user._id,
       title, description, area, pincode, ward, images,
-      category:            aiResult.category,
-      priority:            aiResult.priority,
-      assignedDept:        assignedDept, // CRITICAL FIX: Set the department
-      aiCategoryConfidence: aiResult.aiCategoryConfidence,
-      aiPriorityConfidence: aiResult.aiPriorityConfidence
+      category:            category.toLowerCase(),
+      priority:            priority.toLowerCase(),
+      assignedDept:        assignedDept,
+      aiCategoryConfidence: aiResult.aiCategoryConfidence || 0.95,
+      aiPriorityConfidence: aiResult.aiPriorityConfidence || 0.95
     });
 
     // ── AUTO-ASSIGN FIELD WORKER ──
@@ -87,7 +97,8 @@ exports.submitComplaint = async (req, res) => {
 exports.getComplaintPublic = async (req, res) => {
   try {
     const complaint = await Complaint.findOne({ complaintId: req.params.id })
-      .select('-citizen'); // Hide citizen details for public tracking
+      .select('-citizen') // Hide citizen details for public tracking
+      .populate('assignedTo', 'name employeeId phone');
     if (!complaint) return res.status(404).json({ error: 'Complaint not found' });
     res.json(complaint);
   } catch (err) {
@@ -100,7 +111,8 @@ exports.getComplaintPublic = async (req, res) => {
 exports.getComplaint = async (req, res) => {
   try {
     const complaint = await Complaint.findOne({ complaintId: req.params.id })
-      .populate('citizen', 'name email phone');
+      .populate('citizen', 'name email phone')
+      .populate('assignedTo', 'name employeeId phone');
     if (!complaint) return res.status(404).json({ error: 'Complaint not found' });
 
     // Citizens can only see their own
@@ -132,6 +144,33 @@ exports.getNearby = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+// PATCH /api/complaints/:id/support — citizen supports a case
+exports.supportComplaint = async (req, res) => {
+  try {
+    const complaint = await Complaint.findOne({ complaintId: req.params.id });
+    if (!complaint) return res.status(404).json({ error: 'Complaint not found' });
+
+    complaint.supportCount += 1;
+
+    // Auto-escalation Logic
+    if (complaint.supportCount >= 10) {
+      complaint.priority = 'urgent';
+    } else if (complaint.supportCount >= 5) {
+      if (complaint.priority !== 'urgent') complaint.priority = 'high';
+    }
+
+    await complaint.save();
+
+    res.json({ 
+      success: true, 
+      supportCount: complaint.supportCount, 
+      newPriority: complaint.priority 
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // GET /api/complaints/me — citizen sees their own history
 exports.getMyComplaints = async (req, res) => {
   try {

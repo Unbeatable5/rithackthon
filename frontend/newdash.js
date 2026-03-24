@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5000/api";
+// newdash.js - Authority Detail Logic
 
 document.addEventListener("DOMContentLoaded", () => {
     loadComplaintDetail();
@@ -6,53 +6,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadComplaintDetail() {
     const id = localStorage.getItem("currentComplaintId");
+    if (!id) {
+        alert("Operational ID missing. Please return to Strategic Map.");
+        return;
+    }
+
     try {
-        const result = await apiClient.get(`/authority/complaints/${id}`);
+        // Add Cache Buster to ensure authority sees the absolute latest state
+        const result = await apiClient.get(`/authority/complaints/${id}?t=${Date.now()}`);
         
         if (result.error) {
-            alert("Error: " + result.error);
+            console.error("API Error:", result.error);
+            alert("Error retrieving intel: " + result.error);
             return;
         }
 
         const c = result;
+        const safeText = (val, fallback = "---") => (val ? String(val).toUpperCase() : fallback);
 
         // --- SENTINEL DATA ARCHITECTURE ---
-        document.getElementById("f-complaintId").innerText = c.complaintId || "---";
+        document.getElementById("f-complaintId").innerText = safeText(c.complaintId);
         
         // Priority Badge Level Logic
         const priorityVal = (c.priority || "medium").toLowerCase();
         const priorityEl = document.getElementById("f-priority");
-        const priorityBadge = document.getElementById("priority-badge");
-        if (priorityEl) priorityEl.innerText = priorityVal.toUpperCase();
-        if (priorityBadge) {
-            priorityBadge.innerText = `LEVEL: ${priorityVal.toUpperCase()}`;
-            if (priorityVal === 'high') {
-                priorityBadge.style.background = 'rgba(239, 68, 68, 0.1)';
-                priorityBadge.style.color = '#ef4444';
-                priorityBadge.style.borderColor = 'rgba(239, 68, 68, 0.2)';
-            } else if (priorityVal === 'low') {
-                priorityBadge.style.background = 'rgba(16, 185, 129, 0.1)';
-                priorityBadge.style.color = '#10b981';
-                priorityBadge.style.borderColor = 'rgba(16, 185, 129, 0.2)';
-            }
+        if (priorityEl) {
+            priorityEl.innerText = priorityVal.toUpperCase();
+            if (priorityVal === 'high' || priorityVal === 'urgent') priorityEl.style.color = '#ef4444';
+            else if (priorityVal === 'low') priorityEl.style.color = '#10b981';
+            else priorityEl.style.color = '#1E3A8A';
         }
 
-        document.getElementById("f-category").innerText = (c.category || "---").toUpperCase();
-        document.getElementById("f-date").innerText = new Date(c.submittedAt).toLocaleDateString();
-        document.getElementById("descText").innerText = c.description || "Intelligence log is empty.";
+        document.getElementById("f-category").innerText = safeText(c.category, "OTHER");
+        document.getElementById("f-date").innerText = c.submittedAt ? new Date(c.submittedAt).toLocaleDateString() : "PENDING LOG";
+        
+        // Important: Description Fix
+        const descEl = document.getElementById("descText");
+        if (descEl) {
+            descEl.innerText = c.description || "Transmitted description was empty or corrupted.";
+        }
 
         // Citizen Forensics
         const citizenInfo = document.querySelector(".citizen-info");
-        if (citizenInfo && c.citizen) {
-            citizenInfo.innerHTML = `<span class="material-icons-outlined" style="font-size:16px; vertical-align:middle;">account_circle</span> CITIZEN: ${c.citizen.phone || c.citizen.email || 'N/A'}`;
+        if (citizenInfo) {
+            const contact = (c.citizen && (c.citizen.phone || c.citizen.email)) || 'SECURE_CHANNEL';
+            citizenInfo.innerHTML = `<span class="material-icons-outlined" style="font-size:16px; vertical-align:middle;">account_circle</span> Citizen Contact: ${contact}`;
         }
         
-        // Evidence Visualization
+        // Evidence Visualization (Adaptive Pathing)
         const img = document.getElementById("complaintImage");
-        if (c.images && c.images.length > 0) {
-            img.src = `http://localhost:5000/uploads/${c.images[0]}`;
-        } else {
-            img.src = "https://via.placeholder.com/600x400?text=NO+IMAGE+IN+ARCHIVE";
+        console.log("Trace: Dashboard Evidence Images:", c.images);
+        
+        if (img) {
+            if (c.images && Array.isArray(c.images) && c.images.length > 0) {
+                const imgName = encodeURIComponent(c.images[0]);
+                const finalSrc = `${apiClient.BASE}/uploads/${imgName}`;
+                console.log("Trace: Setting Dashboard Image Src:", finalSrc);
+                
+                img.src = finalSrc;
+                img.onerror = () => { 
+                    console.error("Trace: Dashboard image failed:", finalSrc);
+                    img.src = "https://via.placeholder.com/600x400?text=IMAGE+UNAVAILABLE"; 
+                };
+            } else {
+                console.log("Trace: No evidence images in complaint.");
+                img.src = "https://via.placeholder.com/600x400?text=NO+IMAGE+IN+ARCHIVE";
+            }
         }
 
         // --- SENTINEL STEPPER LOGIC ---
@@ -79,12 +98,17 @@ async function loadComplaintDetail() {
         });
 
         // Control Hub State
-        document.getElementById("statusSelect").value = c.status || "pending";
-        document.getElementById("citizenMessage").value = c.departmentMessage || "";
+        const statusSelect = document.getElementById("statusSelect");
+        if (statusSelect) statusSelect.value = c.status || "pending";
+        
+        const msgInput = document.getElementById("citizenMessage");
+        if (msgInput) msgInput.value = c.departmentMessage || "";
         
         const dateInput = document.querySelector("input[type='date']");
         if (c.deadline && dateInput) {
-            dateInput.value = new Date(c.deadline).toISOString().split('T')[0];
+            try {
+                dateInput.value = new Date(c.deadline).toISOString().split('T')[0];
+            } catch(e) {}
         }
 
         // --- Role-Based Personnel Badge ---
@@ -96,7 +120,7 @@ async function loadComplaintDetail() {
             if (noWorkerMsg) noWorkerMsg.style.display = "none";
             
             const nameEl = document.getElementById("workerName");
-            if (nameEl) nameEl.innerText = c.assignedTo.name;
+            if (nameEl) nameEl.innerText = c.assignedTo.name || "Unknown Agent";
             
             const idEl = document.getElementById("workerId");
             if (idEl) idEl.innerText = "ID: " + (c.assignedTo.employeeId || "N/A");
@@ -108,7 +132,9 @@ async function loadComplaintDetail() {
             if (sectorEl) sectorEl.innerText = (c.assignedDept || "GLOBAL").toUpperCase();
             
             const initialEl = document.getElementById("workerInitials");
-            if (initialEl) initialEl.innerText = c.assignedTo.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+            if (initialEl && c.assignedTo.name) {
+                initialEl.innerText = c.assignedTo.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+            }
         } else {
             if (workerBox) workerBox.style.display = "none";
             if (noWorkerMsg) noWorkerMsg.style.display = "block";
@@ -118,21 +144,23 @@ async function loadComplaintDetail() {
         loadPersonnelDropdown();
 
     } catch (error) {
-        console.error("Failed to load complaint:", error);
+        console.error("Critical Sentinel Load Error:", error);
     }
 }
 
 async function saveStatus() {
     const id = localStorage.getItem("currentComplaintId");
-    const status = document.getElementById("statusSelect").value;
-    const departmentMessage = document.getElementById("citizenMessage").value;
-    const deadline = document.querySelector("input[type='date']").value;
-    const proofFile = document.getElementById("proofFileInput").files[0];
+    const statusSelect = document.getElementById("statusSelect");
+    const msgInput = document.getElementById("citizenMessage");
+    const dateInput = document.querySelector("input[type='date']");
+    const proofFile = document.getElementById("proofFileInput")?.files[0];
+
+    if (!id) return;
 
     const formData = new FormData();
-    formData.append("status", status);
-    formData.append("departmentMessage", departmentMessage);
-    formData.append("deadline", deadline);
+    formData.append("status", statusSelect?.value || "pending");
+    formData.append("departmentMessage", msgInput?.value || "");
+    if (dateInput?.value) formData.append("deadline", dateInput.value);
     if (proofFile) formData.append("resolvedImages", proofFile);
 
     try {
@@ -145,7 +173,7 @@ async function saveStatus() {
         }
     } catch (error) {
         console.error(error);
-        alert("Server error during update.");
+        alert("Server error during update sync.");
     }
 }
 
@@ -159,12 +187,12 @@ function closePopup() {
 
 function downloadImage() {
     const img = document.getElementById('complaintImage');
-    window.open(img.src, '_blank');
+    if (img && img.src) window.open(img.src, '_blank');
 }
 
 function toggleMessageInput() {
     const msgGroup = document.getElementById('messageInputGroup');
-    msgGroup.style.display = msgGroup.style.display === 'none' ? 'block' : 'none';
+    if (msgGroup) msgGroup.style.display = msgGroup.style.display === 'none' ? 'block' : 'none';
 }
 
 function toggleUploadInput() {
@@ -179,7 +207,7 @@ async function loadPersonnelDropdown() {
     try {
         const workers = await apiClient.get("/authority/workers");
         const select = document.getElementById("reassignSelect");
-        if (!select || !workers || workers.error) return;
+        if (!select || !workers || workers.error || !Array.isArray(workers)) return;
 
         // Keep the first option
         const firstOption = select.options[0];
@@ -189,7 +217,8 @@ async function loadPersonnelDropdown() {
         workers.forEach(w => {
             const opt = document.createElement("option");
             opt.value = w._id;
-            opt.innerText = `${w.name} (${w.employeeId})`;
+            const sectorInfo = w.sectors && w.sectors.length > 0 ? ` [${w.sectors.join(", ")}]` : " [No Sectors]";
+            opt.innerText = `${w.name}${sectorInfo}`;
             select.appendChild(opt);
         });
     } catch (err) {
@@ -198,19 +227,26 @@ async function loadPersonnelDropdown() {
 }
 
 async function reassignWorker() {
-    const workerId = document.getElementById("reassignSelect").value;
-    if (!workerId) return;
+    const select = document.getElementById("reassignSelect");
+    const workerId = select?.value;
+    if (!workerId) {
+        alert("Please select a valid personnel from the roster.");
+        return;
+    }
 
     const id = localStorage.getItem("currentComplaintId");
+    console.log(`Trace: Reassigning Complaint ${id} to Worker ${workerId}`);
+    
     try {
         const res = await apiClient.put(`/authority/complaints/${id}/assign`, { workerId });
-        if (res.success) {
-            alert("Agent reassigned successfully! Refreshing view...");
-            loadComplaintDetail();
+        if (res.success || !res.error) {
+            alert("Strategic Reassignment Successful! The field agent has been dispatched.");
+            loadComplaintDetail(); // Reload to update the personnel card
         } else {
             alert("Reassignment failed: " + res.error);
         }
     } catch (err) {
-        console.error(err);
+        console.error("Reassignment Error:", err);
+        alert("Communication failed with the core server.");
     }
 }

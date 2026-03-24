@@ -99,7 +99,7 @@ verifyEmailBtn.onclick = async () => {
     if (enteredOtp === generatedEmailOtp) {
         isEmailVerified = true;
         emailMsg.style.color = "#489c4c";
-        emailMsg.innerText = "Email Verified! Finalizing Secure Link... 🛡️";
+        emailMsg.innerText = "Email Verified! Finalizing Secure Link...";
 
         // Logic for Direct Aadhaar Login after Email Verification
         let aadhaar = aadhaarInput.value.trim().replace(/\s/g, '');
@@ -112,7 +112,7 @@ verifyEmailBtn.onclick = async () => {
         }
 
         try {
-            const response = await fetch("http://localhost:5000/api/auth/citizen/register", {
+            const response = await fetch(`${apiClient.BASE}/api/auth/citizen/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ aadhaar, email })

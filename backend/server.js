@@ -24,8 +24,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // Simple logger removed to reduce terminal noise
 
-// Serve uploaded files statically
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Serve uploaded files statically with permissive CORS for cross-origin asset loading
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
+  setHeaders: (res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Cross-Origin-Resource-Policy', 'cross-origin');
+  }
+}));
 
 // Serve frontend statically
 app.use(express.static(path.join(__dirname, '../frontend')));

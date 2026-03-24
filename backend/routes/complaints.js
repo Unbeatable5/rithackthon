@@ -15,6 +15,7 @@ const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } }); // 1
 // Public
 router.get('/nearby', ctrl.getNearby);
 router.get('/track/:id', ctrl.getComplaintPublic);
+router.patch('/:id/support', ctrl.supportComplaint);
 
 // Citizen: submit + track
 router.get('/me', authMw, ctrl.getMyComplaints);

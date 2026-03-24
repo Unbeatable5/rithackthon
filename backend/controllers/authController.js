@@ -65,6 +65,11 @@ exports.citizenRegister = async (req, res) => {
       citizen.otp = otp;
       citizen.otpExpiry = otpExpiry;
       if (email) citizen.email = email; // Update email if provided
+      
+      // Ensure Aadhaar info is present (fixes validation error for legacy/incomplete records)
+      if (!citizen.aadhaarHash) citizen.aadhaarHash = aadhaarHash;
+      if (!citizen.aadhaarMasked) citizen.aadhaarMasked = aadhaarMasked;
+      
       await citizen.save();
     } else {
       citizen = await Citizen.create({

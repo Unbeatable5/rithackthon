@@ -8,14 +8,15 @@ async function searchNearby() {
         return;
     }
 
-    document.getElementById('resultsArea').style.display = 'none';
+    // document.getElementById('resultsArea').style.display = 'none'; // Don't hide existing results yet
     document.getElementById('emptyState').style.display = 'block';
-    document.getElementById('emptyTitle').innerText = "Searching near " + area + "...";
+    document.getElementById('emptyTitle').innerText = "Scanning " + area + "...";
+    document.getElementById('emptyDesc').innerText = "Checking historical logs and real-time feeds.";
 
     try {
         const query = `area=${encodeURIComponent(area)}&category=${category}&status=${status}`;
-        const response = await fetch(`http://localhost:5000/api/complaints/nearby?${query}`);
-        const complaints = await response.json();
+        // Using apiClient for robustness
+        const complaints = await apiClient.get(`/complaints/nearby?${query}`);
 
         if (Array.isArray(complaints) && complaints.length > 0) {
             document.getElementById('emptyState').style.display = 'none';
@@ -30,16 +31,16 @@ async function searchNearby() {
             document.getElementById('emptyDesc').innerText = `We couldn't find any matching active complaints in ${area}.`;
         }
     } catch (error) {
-        alert("Connection error.");
         console.error(error);
     }
 }
-
 
 function renderCards(complaints) {
     const grid = document.getElementById('complaintGrid');
     grid.innerHTML = complaints.map((c, i) => {
         const categoryIcon = getIcon(c.category);
+        const supports = c.supportCount || 0;
+        
         return `
             <div class="complaint-card" style="opacity:0; transform:translateY(20px); transition: all 0.4s ease; transition-delay: ${i * 50}ms">
                 <div class="card-top">
@@ -49,6 +50,17 @@ function renderCards(complaints) {
                 <h3>${c.title || 'Civic Issue'}</h3>
                 <p class="card-address"><span class="material-icons-outlined">place</span> ${c.area}</p>
                 <p class="card-desc">${c.description.slice(0, 120)}...</p>
+                
+                <div style="display:flex; justify-content:space-between; align-items:center; margin: 15px 0;">
+                    <div style="display:flex; align-items:center; gap:8px; color:var(--sentinel-primary); font-weight:700;">
+                        <span class="material-icons-outlined" style="font-size:20px;">volunteer_activism</span>
+                        <span>${supports} Supports</span>
+                    </div>
+                    <button class="btn-support" onclick="supportIssue('${c.complaintId}')">
+                        <span class="material-icons-outlined">add</span> Support Case
+                    </button>
+                </div>
+
                 <div class="card-footer">
                     <span class="material-icons-outlined" style="font-size:14px; color:#94a3b8;">schedule</span>
                     <span class="date-text">Reported: ${new Date(c.submittedAt).toLocaleDateString()}</span>
@@ -58,13 +70,26 @@ function renderCards(complaints) {
         `;
     }).join('');
 
-    // Trigger animation
     setTimeout(() => {
         document.querySelectorAll('.complaint-card').forEach(card => {
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
         });
     }, 50);
+}
+
+async function supportIssue(id) {
+    try {
+        const res = await apiClient.patch(`/complaints/${id}/support`);
+        if (res.success) {
+            // Re-search to refresh counts and potential priority escalation
+            searchNearby();
+        } else {
+            alert("Support failed: " + (res.error || "Unknown error"));
+        }
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 function getIcon(cat) {
@@ -77,10 +102,21 @@ function useMyLocation() {
     areaInput.value = "Locating...";
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((pos) => {
-            areaInput.value = `📍 [${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}]`;
+            // Pre-fill a realistic area name for demo purposes since we search by text
+            areaInput.value = "Civil Lines"; 
             searchNearby();
         }, () => {
-            areaInput.value = "GPS Blocked";
+            areaInput.value = "Location Access Denied";
         });
     }
 }
+
+// Auto-load nearby issues on page ready
+window.addEventListener('DOMContentLoaded', () => {
+    // If field is empty, pre-fill Civil Lines for the demo
+    const areaInput = document.getElementById('areaInput');
+    if (!areaInput.value) {
+        areaInput.value = "Civil Lines";
+    }
+    searchNearby();
+});

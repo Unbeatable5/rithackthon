@@ -7,11 +7,11 @@ async function checkStatus(paramId = null) {
 
     const token = localStorage.getItem("token");
     const headers = token ? { "Authorization": `Bearer ${token}` } : {};
-    const url = token ? `http://localhost:5000/api/complaints/${id}` : `http://localhost:5000/api/complaints/track/${id}`;
+    const url = token ? `${apiClient.BASE}/api/complaints/${id}` : `${apiClient.BASE}/api/complaints/track/${id}`;
 
     try {
         const response = await fetch(url, { headers });
-        
+
         if (!response.ok) {
             alert("Complaint ID not found or Access Denied");
             return;
@@ -50,7 +50,7 @@ async function checkStatus(paramId = null) {
 
         const boxes = document.querySelectorAll('.step-box');
         const lines = document.querySelectorAll('.step-line');
-        
+
         boxes.forEach((b, i) => {
             if (i < currentStep) b.classList.add('active');
             else b.classList.remove('active');
@@ -62,26 +62,52 @@ async function checkStatus(paramId = null) {
         });
 
         // Evidence and Messages
-        if (c.images && c.images.length > 0) {
-            document.querySelector("#citizen-evidence img").src = `http://localhost:5000/uploads/${c.images[0]}`;
+        const citImg = document.querySelector("#citizen-evidence img");
+        const citBox = document.getElementById("citizen-evidence");
+        
+        console.log("Trace: Track.js Data:", { images: c.images, resolved: c.resolvedImages });
+
+        if (citImg && citBox) {
+            if (c.images && Array.isArray(c.images) && c.images.length > 0) {
+                const imgName = c.images[0];
+                const finalSrc = imgName.startsWith('http') ? imgName : `${apiClient.BASE}/uploads/${imgName}`;
+                console.log("Trace: Setting Citizen Image Src (track.js):", finalSrc);
+                citImg.src = finalSrc;
+                citImg.onerror = () => { 
+                    console.error("Trace: Citizen Image failed (track.js):", finalSrc);
+                    citImg.src = "https://via.placeholder.com/600x400?text=IMAGE+UNAVAILABLE"; 
+                };
+            } else {
+                citImg.src = "https://via.placeholder.com/600x400?text=NO+IMAGE+UPLOADED";
+            }
         }
 
         const msgBox = document.getElementById("f-message");
-        if (c.status !== 'pending' && c.departmentMessage) {
-            msgBox.style.display = "block";
-            document.getElementById("f-msg-text").textContent = c.departmentMessage;
-        } else {
-            msgBox.style.display = "none";
+        if (msgBox) {
+            if (c.departmentMessage && c.departmentMessage.trim() !== "") {
+                msgBox.style.display = "block";
+                document.getElementById("f-msg-text").textContent = c.departmentMessage;
+                console.log("Trace: Track.js Message Sync Complete.");
+            } else {
+                msgBox.style.display = "none";
+            }
         }
 
         const proofBox = document.getElementById("f-proof");
         if (c.status === 'resolved') {
-            proofBox.style.display = "block";
-            if (c.resolvedImages && c.resolvedImages.length > 0) {
-                document.querySelector("#f-proof img").src = `http://localhost:5000/uploads/${c.resolvedImages[0]}`;
+            if (proofBox) proofBox.style.display = "block";
+            if (c.resolvedImages && Array.isArray(c.resolvedImages) && c.resolvedImages.length > 0) {
+                const resImg = document.querySelector("#f-proof img");
+                if (resImg) {
+                    const resName = c.resolvedImages[0];
+                    const resSrc = resName.startsWith('http') ? resName : `${apiClient.BASE}/uploads/${resName}`;
+                    console.log("Trace: Setting Resolved Image Src (track.js):", resSrc);
+                    resImg.src = resSrc;
+                    resImg.onerror = () => { resImg.src = "https://via.placeholder.com/600x400?text=PROOF+UNAVAILABLE"; };
+                }
             }
         } else {
-            proofBox.style.display = "none";
+            if (proofBox) proofBox.style.display = "none";
         }
 
         // SLA

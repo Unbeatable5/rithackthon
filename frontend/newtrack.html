@@ -21,9 +21,11 @@
     <div class="logo">CivicSense</div>
     <ul class="nav-links">
       <a href="index.html">Home</a>
+      <a href="submit.html">Report Issue</a>
       <a href="newtrack.html">Track Status</a>
       <a href="nearby.html">Nearby Issues</a>
     </ul>
+
   </nav>
 
   <!-- CONTENT -->
@@ -42,11 +44,13 @@
     </div>
 
     <!-- RESULT CARD -->
+
     <div class="result-card" id="resultCard">
-      
+
       <div class="card-header">
         <div>
-          <span style="font-size: 0.75rem; color: #64748b; font-weight: 800; text-transform: uppercase;">Tracking Instance</span>
+          <span style="font-size: 0.75rem; color: #64748b; font-weight: 800; text-transform: uppercase;">Complaint ID
+          </span>
           <h2 id="f-id" style="font-size: 1.4rem; color: var(--primary);">CV8DEBG3UY3B</h2>
           <div id="sla-badge" class="sla-alert" style="display:none;">
             <span class="material-icons-outlined" style="font-size: 14px;">report_problem</span>
@@ -91,7 +95,9 @@
           </div>
 
           <div class="complaint-desc">
-            <div style="font-weight: 800; font-size: 0.75rem; color: var(--primary); margin-bottom: 5px;">INPUT SUMMARY</div>
+            <div style="font-weight: 800; font-size: 0.75rem; color: var(--primary); margin-bottom: 5px;">Complaint
+              Description
+            </div>
             <p id="f-desc">Loading complaint data...</p>
           </div>
         </div>
@@ -105,7 +111,7 @@
           <div class="step-node" id="step-1">
             <div class="node-dot"></div>
             <div class="node-info">
-              <span class="node-title">Verified Submission</span>
+              <span class="node-title">Complaint Submitted</span>
               <span class="node-sub">Complaint received and authenticated</span>
             </div>
           </div>
@@ -113,7 +119,7 @@
           <div class="step-node" id="step-2">
             <div class="node-dot"></div>
             <div class="node-info">
-              <span class="node-title">Authority Appraisal</span>
+              <span class="node-title">Complaint Viewed by Authority</span>
               <span class="node-sub">Relevant department has viewed your report</span>
             </div>
           </div>
@@ -121,7 +127,7 @@
           <div class="step-node" id="step-3">
             <div class="node-dot"></div>
             <div class="node-info">
-              <span class="node-title">Active Resolution</span>
+              <span class="node-title">Complaint In Progress</span>
               <span class="node-sub">Field workers dispatched to the site</span>
             </div>
           </div>
@@ -129,7 +135,7 @@
           <div class="step-node" id="step-4">
             <div class="node-dot"></div>
             <div class="node-info">
-              <span class="node-title">Resolution Finalized</span>
+              <span class="node-title">Complaint Resolved</span>
               <span class="node-sub">AI verified work completion</span>
             </div>
           </div>
@@ -137,34 +143,46 @@
         </div>
       </div>
 
-      <!-- PROOF AREA -->
-      <div class="proof-section">
-        <div class="proof-card" id="citizen-evidence">
-          <div class="proof-header">
-            <span class="material-icons-outlined" style="color:var(--primary)">image</span>
-            Citizen Submission
-          </div>
-          <img src="" alt="Evidence" class="proof-img">
-          <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">
-            Initial photo analyzed by AI for authenticity.
-          </p>
+      <!-- CITIZEN EVIDENCE / SUBMITTED IMAGE (RE-LOCATED) -->
+      <div id="citizen-evidence" class="submission-hero" style="display:none; margin: -10px 40px 30px;">
+        <div class="hero-label">
+          <span class="material-icons-outlined" style="font-size: 16px;">photo_camera</span>
+          SUBMITTED EVIDENCE
         </div>
+        <img src="" alt="Evidence" class="hero-img">
+      </div>
 
-        <div class="proof-card" id="f-proof" style="display:none;">
+      <!-- DEPARTMENT MESSAGE CARD (Shows when authority sends a message) -->
+      <div id="f-message-card"
+        style="display:none; margin: 0 40px 30px; padding: 25px; background: rgba(30, 58, 138, 0.05); border-radius: 20px; border: 1px dashed var(--primary);">
+        <div
+          style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--primary); font-weight: 700;">
+          <span class="material-icons-outlined">maps_ugc</span>
+          Authority Message
+        </div>
+        <p id="f-dept-msg" style="font-size: 0.95rem; color: #475569; line-height: 1.6; font-weight: 500;">
+          Waiting for departmental intel...
+        </p>
+      </div>
+
+      <!-- PROOF AREA (Resolution Only) -->
+      <div class="proof-section">
+        <div class="proof-card" id="f-proof" style="display:none; grid-column: span 2;">
           <div class="proof-header">
             <span class="material-icons-outlined" style="color:var(--accent)">verified</span>
-            Authority Resolution
+            Authority Resolution Proof
           </div>
           <img src="" alt="Proof" class="proof-img">
           <p id="f-msg-text" style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">
-            Issue marked as resolved by department.
+            This image was uploaded by the responding officer to verify the fix.
           </p>
         </div>
       </div>
 
       <!-- SYSTEM TRACE -->
       <div class="trace-logs">
-        <h3 style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px;">
+        <h3
+          style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px;">
           System Event Trace
           <span class="live-indicator"></span>
         </h3>
@@ -193,44 +211,46 @@
       <button class="btn-secondary" onclick="goHome()">Return to Dashboard</button>
     </div>
     <!-- Chat Toggle Orb -->
-  <div id="chat-toggle" title="Chat with CivicSense AI">
-    <div class="orb-ring"></div>
-    <span class="material-icons-outlined" style="color:white; font-size:32px; z-index:2;">auto_awesome</span>
-  </div>
-
-  <!-- Chat Window -->
-  <div id="chat-window">
-    <div class="chat-header">
-      <div class="ai-avatar-sm">
-        <span class="material-icons-outlined" style="font-size:24px; color:white;">auto_awesome</span>
-      </div>
-      <div class="agent-info">
-        <div class="agent-name">CivicSense AI</div>
-        <div class="agent-status"><span class="status-dot"></span> Online</div>
-      </div>
-      <span id="chat-close" title="Close"><span class="material-icons-outlined" style="font-size:22px; color:#64748b;">close</span></span>
+    <div id="chat-toggle" title="Chat with CivicSense AI">
+      <div class="orb-ring"></div>
+      <span class="material-icons-outlined" style="color:white; font-size:32px; z-index:2;">auto_awesome</span>
     </div>
 
-    <div class="chat-body" id="chat-body">
-      <div class="bot-msg">
-        Hello! I'm your <b>Digital Assistant</b>. How can I help you improve our city today?
+    <!-- Chat Window -->
+    <div id="chat-window">
+      <div class="chat-header">
+        <div class="ai-avatar-sm">
+          <span class="material-icons-outlined" style="font-size:24px; color:white;">auto_awesome</span>
+        </div>
+        <div class="agent-info">
+          <div class="agent-name">CivicSense AI</div>
+          <div class="agent-status"><span class="status-dot"></span> Online</div>
+        </div>
+        <span id="chat-close" title="Close"><span class="material-icons-outlined"
+            style="font-size:22px; color:#64748b;">close</span></span>
       </div>
-      <div class="quick-replies">
-        <button onclick="quickReply('File Complaint')">Report Issue</button>
-        <button onclick="quickReply('Track Status')">Track Status</button>
-        <button onclick="quickReply('General Info')">Help Center</button>
-      </div>
-    </div>
 
-    <div class="chat-footer">
-      <input type="text" id="user-input" placeholder="Ask me anything..." />
-      <button id="send-btn"><span class="material-icons-outlined" style="font-size:20px;">send</span></button>
+      <div class="chat-body" id="chat-body">
+        <div class="bot-msg">
+          Hello! I'm your <b>Digital Assistant</b>. How can I help you improve our city today?
+        </div>
+        <div class="quick-replies">
+          <button onclick="quickReply('File Complaint')">Report Issue</button>
+          <button onclick="quickReply('Track Status')">Track Status</button>
+          <button onclick="quickReply('General Info')">Help Center</button>
+        </div>
+      </div>
+
+      <div class="chat-footer">
+        <input type="text" id="user-input" placeholder="Ask me anything..." />
+        <button id="send-btn"><span class="material-icons-outlined" style="font-size:20px;">send</span></button>
+      </div>
     </div>
-  </div>
   </main>
 
-  <script src="api_client.js"></script>
-  <script src="newtrack.js"></script>
-  <script src="script.js"></script>
+  <script src="api_client.js?v=2"></script>
+  <script src="newtrack.js?v=2"></script>
+  <script src="script.js?v=2"></script>
 </body>
+
 </html>

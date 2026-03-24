@@ -47,20 +47,33 @@ body {
 .logo {
   font-family: 'Outfit', sans-serif;
   font-weight: 800;
-  font-size: 1.5rem;
-  letter-spacing: -0.5px;
+  font-size: 1.6rem;
+  letter-spacing: -1px;
   color: white !important;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.logo span {
+  background: var(--sentinel-accent);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 1px;
 }
 
 .page-title {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   font-weight: 800;
-  letter-spacing: -1px;
-  background: linear-gradient(90deg, #1E3A8A, #3b82f6);
+  letter-spacing: -1.5px;
+  background: linear-gradient(135deg, #1E3A8A, #3b82f6);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
   display: flex;
   align-items: center;
   gap: 15px;
@@ -144,9 +157,19 @@ body {
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
   border-radius: 24px;
-  padding: 30px;
-  margin-bottom: 30px;
+  padding: 25px;
+  margin-bottom: 25px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+  transition: all 0.3s ease;
+}
+
+.ai-box:hover {
+    box-shadow: 0 15px 45px rgba(30,58,138,0.08);
+}
+
+.intel-header-bar {
+    background: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,0.8));
+    border-left: 5px solid var(--sentinel-primary);
 }
 
 .ai-box h3 {
@@ -160,7 +183,7 @@ body {
   color: var(--sentinel-primary);
 }
 
-/* PERSONNEL BADGE */
+/* PERSONNEL BADGE & AVATAR */
 .status-highlight {
   border-left: 5px solid var(--sentinel-primary);
 }
@@ -169,10 +192,21 @@ body {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 15px;
-  background: rgba(30,58,138,0.04);
-  border-radius: 16px;
-  border: 1px solid rgba(30,58,138,0.08);
+  padding: 18px;
+  background: rgba(30,58,138,0.03);
+  border-radius: 18px;
+  border: 1px solid rgba(30,58,138,0.1);
+  transition: all 0.3s;
+}
+
+.worker-badge:hover {
+  background: rgba(30,58,138,0.06);
+  border-color: var(--sentinel-primary);
+}
+
+.worker-avatar {
+  background: linear-gradient(135deg, var(--sentinel-primary), #3b82f6) !important;
+  color: white !important;
 }
 
 /* STEPPER SYSTEM */

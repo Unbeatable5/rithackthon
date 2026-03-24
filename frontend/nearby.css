@@ -263,6 +263,30 @@
 .p-med { background: rgba(245,158,11,0.1); color: #f59e0b; }
 .p-low { background: rgba(72,156,76,0.1); color: #489c4c; }
 
+/* ── SUPPORT BUTTON ── */
+.btn-support {
+  background: rgba(30, 58, 138, 0.05);
+  color: #1E3A8A;
+  border: 1px solid rgba(30, 58, 138, 0.2);
+  padding: 8px 15px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-support:hover {
+  background: #1E3A8A;
+  color: white;
+  transform: scale(1.05);
+}
+
+.btn-support .material-icons-outlined { font-size: 16px; }
+
 /* ── EMPTY STATE ── */
 .empty-state {
   text-align: center;

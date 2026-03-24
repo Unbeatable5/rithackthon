@@ -23,7 +23,7 @@
       <a href="index.html">Home</a>
       <a href="submit.html">Report Issue</a>
       <a href="newtrack.html">Track Status</a>
-      <a href="nearby.html" class="active">Nearby Issues</a>
+      <a href="nearby.html">Nearby Issues</a>
     </ul>
   </nav>
 
@@ -50,10 +50,11 @@
           <span class="material-icons-outlined">category</span>
           <select id="categorySelect">
             <option value="all">All Categories</option>
-            <option>Road Hazard</option>
-            <option>Water Supply</option>
-            <option>Electrical</option>
-            <option>Sanitation</option>
+            <option value="road">Road Hazards</option>
+            <option value="water">Water Supply</option>
+            <option value="electrical">Electrical</option>
+            <option value="sanitation">Sanitation</option>
+            <option value="garbage">Garbage</option>
           </select>
         </div>
 
@@ -61,9 +62,9 @@
           <span class="material-icons-outlined">swap_vert</span>
           <select id="statusFilter">
             <option value="all">All Statuses</option>
-            <option>Pending</option>
-            <option>In Progress</option>
-            <option>Solved</option>
+            <option value="pending">Pending</option>
+            <option value="in_progress">In Progress</option>
+            <option value="resolved">Resolved</option>
           </select>
         </div>
       </div>
@@ -172,7 +173,5 @@
   <script src="api_client.js"></script>
   <script src="nearby.js"></script>
   <script src="script.js"></script>
-</body>
-</html>
 </body>
 </html>

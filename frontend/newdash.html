@@ -1,222 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentinel | CivicSense Operations</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>CivicSense - Complaint Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="newdash.css">
     <link rel="stylesheet" href="neon-bg.css">
 </head>
+
 <body>
     <div class="neon-blur neon-blur-1"></div>
     <div class="neon-blur neon-blur-2"></div>
     <div class="neon-blur neon-blur-3"></div>
 
-    <nav class="navbar">
-        <div class="logo-box" style="display: flex; align-items: center; gap: 10px;">
-            <span class="material-icons-outlined" style="font-size:32px; color: #3b82f6;">assured_workload</span>
-            <div class="logo">CivicSense</div>
-        </div>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="dash.html">Dashboard</a>
-            <button id="nav-action-btn" class="nav-bar-btn" onclick="handleMainAction()">Verify Identity</button>
-        </div>
-    </nav>  
+    <!-- PREMIUM GLOBAL NAVBAR -->
 
-    <div class="main-content">
-        <div class="operations-header">
-            <h2 class="page-title">
-                <span class="material-icons-outlined" style="font-size: 40px; color: #1E3A8A;">terminal</span>
-                Sentinel Operations
-                <span id="priority-badge" style="font-size: 0.8rem; background: rgba(30,58,138,0.1); padding: 5px 15px; border-radius: 20px; color: #1E3A8A; margin-left:10px; border: 1px solid rgba(30,58,138,0.2);">MISSION PRIORITY</span>
-            </h2>
-        </div>
+
+
+
+
+    <div class="main-content" style="max-width: 1200px; padding: 0 20px;">
+        <h2 class="page-title">Command Center <span class="material-icons-outlined"
+                style="vertical-align: middle; color: #489c4c;">hub</span></h2>
 
         <div class="dashboard-grid">
-            <!-- INTELLIGENCE WING (LEFT) -->
-            <div class="intelligence-wing">
-                
-                <!-- NODE GRID -->
-                <div class="info-grid">
-                    <div class="tile">
-                        <span class="material-icons-outlined">tag</span>
-                        <div><small>Operational ID</small><p id="f-complaintId">---</p></div>
+
+            <div class="main-panel">
+
+                <!-- TOP INTEL BAR -->
+                <div class="intel-header-bar ai-box" style="display:Flex; justify-content:space-between; align-items:center; padding: 20px 30px; margin-bottom:25px;">
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <span class="material-icons-outlined" style="background:var(--sentinel-primary); color:white; padding:10px; border-radius:12px;">tag</span>
+                        <div>
+                            <small style="display:block; font-size:10px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Strategic ID</small>
+                            <p id="f-complaintId" style="margin:0; font-weight:800; font-size:1.4rem;">CV-88219</p>
+                        </div>
                     </div>
-                    <div class="tile">
-                        <span class="material-icons-outlined">priority_high</span>
-                        <div><small>Severity Level</small><p id="f-priority">---</p></div>
-                    </div>
-                    <div class="tile">
-                        <span class="material-icons-outlined">analytics</span>
-                        <div><small>Category</small><p id="f-category">---</p></div>
-                    </div>
-                    <div class="tile">
-                        <span class="material-icons-outlined">schedule</span>
-                        <div><small>Log Period</small><p id="f-date">---</p></div>
+                    <div style="display:flex; gap:30px;">
+                        <div style="text-align:right;">
+                            <small style="display:block; font-size:10px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Priority</small>
+                            <p id="f-priority" style="margin:0; font-weight:800; color:#ef4444;">HIGH</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <small style="display:block; font-size:10px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Category</small>
+                            <p id="f-category" style="margin:0; font-weight:800;">WATER</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <small style="display:block; font-size:10px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Submitted</small>
+                            <p id="f-date" style="margin:0; font-weight:800;">24 MAR 2026</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- ASSIGNED PERSONNEL BADGE -->
-                <div class="ai-box status-highlight">
-                    <h3><span class="material-icons-outlined">engineering</span> Active Field Personnel</h3>
-                    <div id="workerProfile" style="display:none;">
-                        <div class="worker-badge">
-                            <div style="background: var(--sentinel-primary); color:white; width:60px; height:60px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.5rem;" id="workerInitials">??</div>
-                            <div style="flex-grow: 1;">
-                                <h4 id="workerName" style="margin:0; font-size:1.3rem; color:var(--text-main);">Identifying Agent...</h4>
-                                <small id="workerId" style="color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:1px;">ID: GW-000</small>
+                <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:25px; margin-bottom:25px;">
+                    <div class="ai-box description-section" style="margin-bottom:0; height:100%;">
+                        <h3><span class="material-icons-outlined"
+                                style="vertical-align: middle; font-size: 18px;">description</span> Logged Description</h3>
+                        <p id="descText" style="color:#475569; line-height:1.6; font-size:0.95rem;">Loading description...</p>
+                    </div>
+
+                    <div class="ai-box tracking-section" style="margin-bottom:0; height:100%;">
+                        <h3 style="margin-bottom: 25px;"><span class="material-icons-outlined"
+                                style="vertical-align: middle; font-size: 18px;">linear_scale</span> Operational Status</h3>
+                        <div class="stepper" style="margin-top:10px;">
+                            <div class="step">
+                                <div class="step-box active" style="width:45px; height:45px;"><span class="material-icons-outlined" style="font-size:20px;">upload_file</span></div>
+                                <span style="font-size:10px;">LOGGED</span>
                             </div>
-                            <div style="text-align: right;">
-                                <span id="workerSector" style="background: rgba(30,58,138,0.08); padding: 5px 12px; border-radius: 8px; font-weight:700; font-size:0.75rem; color:var(--sentinel-primary);">SECTOR ALPHA</span>
+                            <div class="step-line active-line"></div>
+                            <div class="step">
+                                <div class="step-box active" style="width:45px; height:45px;"><span class="material-icons-outlined" style="font-size:20px;">visibility</span></div>
+                                <span style="font-size:10px;">VIEWED</span>
+                            </div>
+                            <div class="step-line active-line"></div>
+                            <div class="step">
+                                <div class="step-box empty" style="width:45px; height:45px;"><span class="material-icons-outlined" style="font-size:20px;">engineering</span></div>
+                                <span style="font-size:10px;">ACTION</span>
                             </div>
                         </div>
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:15px;">
-                            <div style="background: #fff; padding:12px 18px; border-radius:14px; border:1px solid #e2e8f0; display:flex; align-items:center; gap:10px;">
-                                <span class="material-icons-outlined" style="color:var(--text-muted); font-size:18px;">phone_enabled</span>
-                                <div>
-                                    <small style="color:var(--text-muted); display:block; font-size:10px; font-weight:700;">SECURE CHANNEL</small>
-                                    <span id="workerPhone" style="font-weight:700; color:var(--text-main);">+91 000000000</span>
+                    </div>
+                </div>
+
+                <!-- NEW: ACTIVE PERSONNEL PROFILE -->
+                <!-- RESPONSE & EVIDENCE BLOCK -->
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:25px;">
+                    <!-- PERSONNEL -->
+                    <div class="ai-box personnel-section" id="personnelSection" style="margin-bottom:0;">
+                        <h3><span class="material-icons-outlined"
+                                style="vertical-align: middle; font-size: 18px;">badge</span> Response Team</h3>
+                        <div id="workerProfile" style="display: none; margin-top:15px;">
+                            <div class="worker-badge" style="padding:15px; border-radius:15px;">
+                                <div class="worker-avatar" id="workerInitials"
+                                    style="width:40px; height:40px; background:var(--sentinel-primary); color:white; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem;">
+                                    JD</div>
+                                <div class="worker-info" style="flex:1;">
+                                    <h4 id="workerName" style="margin:0; font-size:1rem; color:#1E3A8A;">John Agent</h4>
+                                    <div style="margin-top:3px; display:flex; flex-direction:column; gap:2px; font-size:0.75rem; color:#64748b;">
+                                        <span id="workerId">ID: FW-882</span>
+                                        <span id="workerPhone">9876543210</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div style="background: #fff; padding:12px 18px; border-radius:14px; border:1px solid #e2e8f0; display:flex; align-items:center; gap:10px;">
-                                <span class="material-icons-outlined" style="color:var(--text-muted); font-size:18px;">radar</span>
-                                <div>
-                                    <small style="color:var(--text-muted); display:block; font-size:10px; font-weight:700;">PROXIMITY STATUS</small>
-                                    <span style="font-weight:700; color:#38b463;">ON-SITE / ACTIVE</span>
-                                </div>
-                            </div>
+                        </div>
+                        <div id="noWorkerMsg"
+                            style="padding:15px; text-align:center; background:rgba(239, 68, 68, 0.03); border:1px dashed rgba(239, 68, 68, 0.2); border-radius:12px; color:#ef4444; font-size:0.8rem; margin-top:15px;">
+                            UNASSIGNED
                         </div>
                     </div>
-                    <div id="noWorkerMsg" style="background: rgba(30,58,138,0.05); padding: 20px; border-radius: 16px; border: 1px dashed rgba(30,58,138,0.2); text-align: center; color: var(--text-muted); font-style: italic;">
-                        <span class="material-icons-outlined" style="font-size:32px; margin-bottom:10px; display:block; color:var(--sentinel-primary);">smart_toy</span>
-                        AI Sentinel is currently routing the nearest departmental field agent to this geolocation...
-                    </div>
-                </div>
 
-                <!-- DESCRIPTION LOG -->
-                <div class="ai-box">
-                    <h3><span class="material-icons-outlined">subject</span> Intelligence Log</h3>
-                    <p id="descText" style="color:#475569; line-height:1.7; font-size:1.05rem;">Intercepting transmission...</p>
-                </div>
-
-                <!-- LIVE PROGRESS TRACKER -->
-                <div class="ai-box">
-                    <h3><span class="material-icons-outlined">insights</span> Real-Time Resolution Feed</h3>
-                    <div class="stepper">
-                        <div class="step">
-                            <div class="step-box active anim-pulse"><span class="material-icons-outlined">upload_file</span></div>
-                            <span>Reported</span>
+                    <!-- MEDIA -->
+                    <div class="ai-box media-section" style="margin-bottom:0;">
+                         <h3 style="margin-bottom:15px;"><span class="material-icons-outlined"
+                                style="vertical-align: middle; font-size: 18px;">image</span> Evidence Log</h3>
+                        <div class="image-preview"
+                            style="width:100%; height:150px; border-radius:12px; overflow:hidden; border:1px solid rgba(0,0,0,0.05); background:#f8fafc; cursor:pointer;" onclick="downloadImage()">
+                            <img src="" id="complaintImage" alt="Evidence"
+                                style="width:100%; height:100%; object-fit:cover;">
                         </div>
-                        <div class="step-line active-line"></div>
-                        <div class="step">
-                            <div class="step-box empty"><span class="material-icons-outlined">visibility</span></div>
-                            <span>Verified</span>
-                        </div>
-                        <div class="step-line"></div>
-                        <div class="step">
-                            <div class="step-box empty"><span class="material-icons-outlined">engineering</span></div>
-                            <span>Deployment</span>
-                        </div>
-                        <div class="step-line"></div>
-                        <div class="step">
-                            <div class="step-box empty"><span class="material-icons-outlined">verified</span></div>
-                            <span>Resolved</span>
+                        <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
+                             <p class="citizen-info" style="margin:0; font-size:0.7rem; font-weight:700; color:var(--text-muted);">SOURCE: CITIZEN</p>
+                             <span class="material-icons-outlined" style="font-size:16px; color:var(--sentinel-primary);">open_in_new</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- EVIDENCE DATA -->
-                <div class="ai-box media-section">
-                    <div class="media-header" style="display:flex; justify-content:space-between; align-items:center;">
-                        <h3 style="margin:0;"><span class="material-icons-outlined">cloud_circle</span> Forensic Evidence</h3>
-                        <p class="citizen-info" style="margin:0; background:rgba(30,58,138,0.08); padding:8px 16px; border-radius:20px; font-weight:700; font-size:0.85rem; color:#1E3A8A;"><span class="material-icons-outlined" style="font-size:16px; vertical-align:middle;">account_circle</span> Citizen Contact: +91 7474272419</p>
-                    </div>
-                    <div class="image-preview" style="width:100%; height:450px; margin-top:20px; border:1px solid rgba(0,0,0,0.1); background:#f1f5f9;">
-                        <img src="" id="complaintImage" alt="Asset Preview" style="width:100%; height:100%; object-fit:contain; background: white;">
-                    </div>
-                    <div style="display:flex; justify-content: flex-end; margin-top:20px;">
-                        <button class="btn-download" onclick="downloadImage()"><span class="material-icons-outlined" style="font-size:18px; vertical-align:middle;">download</span> Archive Source File</button>
-                    </div>
-                </div>
-            </div>
+            </div> <!-- End Main Panel -->
 
-            <!-- OPERATIONS HUB (RIGHT SIDEBAR) -->
+            <!-- RIGHT PANEL: Sticky Actions -->
             <div class="sidebar-panel">
-                <div class="actions-border" style="position:sticky; top:120px;">
-                    <div style="border-bottom: 2px solid rgba(30,58,138,0.1); padding-bottom: 20px; margin-bottom: 30px;">
-                        <h2 style="margin:0; font-size:1.4rem; color:var(--sentinel-primary); font-weight:800; display:flex; align-items:center; gap:10px;">
-                            <span class="material-icons-outlined">radar</span> Command Hub
-                        </h2>
-                    </div>
-                    
-                    <label>Transmission Control</label>
-                    <button class="btn-viewed" id="markViewedBtn" onclick="toggleMessageInput()"><span class="material-icons-outlined">visibility</span> Establish Contact</button>
-
-                    <div class="form-group hidden-input" id="messageInputGroup" style="display: none; margin-bottom: 25px;">
-                        <label>Secure Message to Citizen</label>
-                        <textarea id="citizenMessage" rows="4" placeholder="Draft transmission for citizen tracking portal..." style="font-family:'Inter', sans-serif;"></textarea>
-                    </div>
-                    
-                    <div class="form-group" style="margin-top:25px;">
-                        <label>Resolution Deadline</label>
-                        <input type="date" style="padding: 14px; font-weight: 600;">
+                <div class="actions-border" style="position:sticky; top:100px;">
+                    <div
+                        style="border-bottom: 1px solid rgba(30,58,138,0.1); padding-bottom: 15px; margin-bottom: 20px;">
+                        <label class="label-sm" style="font-size: 1.1rem; color:#1E3A8A;"><span
+                                class="material-icons-outlined" style="vertical-align: middle;">tune</span> Control
+                            Hub</label>
                     </div>
 
-                    <div class="form-group" style="margin-top:25px;">
-                        <label>Mission Status</label>
-                        <select id="statusSelect" onchange="toggleUploadInput()" style="padding: 14px; font-weight: 600;">
-                            <option value="pending">STANDBY (PENDING)</option>
-                            <option value="in_progress">ENGAGED (IN PROGRESS)</option>
-                            <option value="resolved">MISSION COMPLETE</option>
+                    <button class="btn-viewed" id="markViewedBtn" onclick="toggleMessageInput()"><span
+                            class="material-icons-outlined"
+                            style="font-size:18px; vertical-align:middle;">visibility</span> Mark as Viewed</button>
+
+                    <div class="form-group hidden-input" id="messageInputGroup"
+                        style="display: none; margin-bottom: 20px;">
+                        <label style="color: #1E3A8A;"><span class="material-icons-outlined"
+                                style="font-size:14px; vertical-align:middle;">maps_ugc</span> Message Citizen</label>
+                        <textarea id="citizenMessage" rows="3" placeholder="Explain the delay..."
+                            style="width: 100%; border-radius: 8px; padding: 10px; border: 1px solid #cbd5e1; outline: none; transition: 0.3s;"></textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-top:20px;">
+                        <label><span class="material-icons-outlined"
+                                style="font-size:14px; vertical-align:middle;">event_available</span> Set
+                            Deadline</label>
+                        <input type="date" value="2027-03-29"
+                            style="padding: 10px; border-radius:8px; border:1px solid #cbd5e1; outline:none; font-family:'Inter', sans-serif; width:100%; box-sizing:border-box;">
+                    </div>
+
+                    <!-- NEW: PERSONNEL MANAGEMENT -->
+                    <div class="form-group" style="margin-top:20px;">
+                        <label style="color:#1E3A8A;"><span class="material-icons-outlined"
+                                style="font-size:14px; vertical-align:middle;">person_add</span> Reassign Agent</label>
+                        <div style="display:flex; gap:8px;">
+                            <select id="reassignSelect"
+                                style="flex:1; padding: 10px; border-radius:8px; border:1px solid #cbd5e1; outline:none; font-family:'Inter', sans-serif;">
+                                <option value="">Select Personnel...</option>
+                            </select>
+                            <button onclick="reassignWorker()"
+                                style="background:var(--sentinel-primary); color:white; border:none; border-radius:8px; padding:0 12px; cursor:pointer; transition:0.3s;"
+                                title="Assign Agent">
+                                <span class="material-icons-outlined" style="vertical-align:middle;">send</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top:20px;">
+                        <label><span class="material-icons-outlined"
+                                style="font-size:14px; vertical-align:middle;">compare_arrows</span> Update
+                            Status</label>
+                        <select id="statusSelect" onchange="toggleUploadInput()"
+                            style="padding: 10px; border-radius:8px; border:1px solid #cbd5e1; outline:none; font-family:'Inter', sans-serif; width:100%; box-sizing:border-box;">
+                            <option value="pending">Pending</option>
+                            <option value="in_progress" selected>In Progress</option>
+                            <option value="resolved">Resolved</option>
                         </select>
                     </div>
 
-                    <div class="form-group" style="margin-top:25px;">
-                        <label>Personnel Reassignment</label>
-                        <select id="reassignSelect" onchange="reassignWorker()" style="padding: 14px; font-weight: 600; border-left: 3px solid var(--sentinel-primary);">
-                            <option value="">-- AUTO ASSIGN (AI) --</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group hidden-input" id="uploadProofGroup" style="display: none; margin-top: 25px;">
-                        <label>Resolution Verification Archive</label>
-                        <div style="border: 2px dashed #38b463; border-radius: 16px; padding: 30px 15px; text-align: center; cursor: pointer; background: rgba(56,180,99,0.03); transition: all 0.3s;" onclick="document.getElementById('proofFileInput').click()">
-                            <span class="material-icons-outlined" style="color: #38b463; font-size: 40px;">camera_alt</span><br>
-                            <span style="font-size: 13px; color: #38b463; font-weight:800; margin-top:10px; display:block;">UPLOAD VERIFICATION ASSET</span>
+                    <div class="form-group hidden-input" id="uploadProofGroup"
+                        style="display: none; margin-top: 20px; margin-bottom: 20px;">
+                        <label style="color: #489c4c;"><span class="material-icons-outlined"
+                                style="font-size:14px; vertical-align:middle;">add_a_photo</span> Resolved Proof</label>
+                        <div style="border: 2px dashed #489c4c; border-radius: 12px; padding: 25px 15px; text-align: center; cursor: pointer; background: rgba(72,156,76,0.05); transition: background 0.3s;"
+                            onclick="document.getElementById('proofFileInput').click()">
+                            <span class="material-icons-outlined"
+                                style="color: #489c4c; font-size: 36px;">cloud_upload</span><br>
+                            <span style="font-size: 14px; color: #489c4c; font-weight:600;">Select Image</span>
                             <input type="file" id="proofFileInput" style="display: none;">
                         </div>
                     </div>
 
-                    <div class="save-btn-wrapper" style="margin-top: 40px;">
-                        <button class="btn-save" onclick="saveStatus()"><span class="material-icons-outlined">sync</span> SYNC UPDATES</button>
+                    <div class="save-btn-wrapper" style="margin-top: 30px;">
+                        <button class="btn-save" onclick="saveStatus()"
+                            style="width:100%; padding:14px; font-size:1rem;"><span class="material-icons-outlined"
+                                style="font-size:18px; vertical-align:middle;">sync</span> Push Updates</button>
                     </div>
-                    
-                    <div style="margin-top: 30px; padding: 15px; background: rgba(0,0,0,0.02); border-radius: 12px; font-size: 0.75rem; color: var(--text-muted); text-align: center;">
-                        <span class="material-icons-outlined" style="font-size:14px; vertical-align:middle;">lock</span> Secure Sentinel Backend Connection: L-V3
-                    </div>
+
                 </div>
             </div>
-        </div> <!-- End Dashboard Grid -->
+        </div>
 
-        <div class="footer-center" style="margin-top: 80px; margin-bottom: 80px;">
-            <button class="btn-back" onclick="window.location.href='dash.html'"><span class="material-icons-outlined" style="font-size:18px; vertical-align:middle;">arrow_back</span> Return to Strategic Map</button>
+        <div class="footer-center" style="text-align:center; padding-top: 30px; margin-bottom: 50px;">
+            <form action="dash.html" style="display:inline-block;">
+                <button class="btn-back"><span class="material-icons-outlined"
+                        style="font-size:16px; vertical-align:middle;">arrow_back</span> Back to Dashboard</button>
+            </form>
         </div>
     </div>
-
-    <!-- GLOBAL TRANSMO-POPUP -->
+    <!-- AI Save Confirmation Popup -->
     <div class="popup-overlay" id="savePopupOverlay" style="display: none;">
-        <div class="popup-content" style="border-top: 4px solid var(--sentinel-primary);">
-            <div style="width:70px; height:70px; background:rgba(30,58,138,0.1); border-radius:35px; display:flex; align-items:center; justify-content:center; margin: 0 auto 20px;">
-                <span class="material-icons-outlined" style="font-size: 40px; color: var(--sentinel-primary);">cloud_done</span>
-            </div>
-            <h3>Sync Confirmed</h3>
-            <p>Mission parameters have been updated. All encrypted data has been broadcast to the citizen tracking nodes.</p>
-            <div style="margin-top: 30px;">
-                <button class="btn-save" onclick="confirmSave()" style="width:100%;">ACKNOWLEDGE & CLOSE</button>
+        <div class="popup-content">
+            <span class="material-icons-outlined"
+                style="font-size: 48px; color: #f59e0b; margin-bottom: 15px;">warning_amber</span>
+            <h3>Confirm System Update</h3>
+            <p>Are you sure you want to push these updates live to the Citizen Tracking portal? This action will trigger
+                notifications.</p>
+            <div class="popup-actions" style="margin-top: 25px; display: flex; gap: 15px; justify-content: center;">
+                <button class="btn-cancel" onclick="closePopup()"
+                    style="background: #e2e8f0; color: #475569; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer;">Cancel</button>
+                <form action="dash.html" style="margin: 0;"><button class="btn-confirm" type="submit"
+                        style="background: #1E3A8A; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(30,58,138,0.3);">Yes,
+                        Update Now</button></form>
             </div>
         </div>
     </div>
@@ -224,4 +239,5 @@
     <script src="api_client.js"></script>
     <script src="newdash.js"></script>
 </body>
+
 </html>

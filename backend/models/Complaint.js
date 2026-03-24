@@ -44,6 +44,7 @@ const ComplaintSchema = new mongoose.Schema({
     enum: ['pending', 'in_progress', 'resolved', 'delayed', 'escalated'],
     default: 'pending'
   },
+  supportCount: { type: Number, default: 0 },
 
   // Authority actions
   departmentMessage: { type: String, default: '' },

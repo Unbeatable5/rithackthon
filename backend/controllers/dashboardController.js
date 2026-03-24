@@ -125,8 +125,25 @@ exports.getDashboardStats = async (req, res) => {
       time: c.submittedAt
     }));
 
+    // Analytics: Resolution Rate
+    const resolved = await Complaint.countDocuments({ ...base, status: 'resolved' });
+    const resolutionRate = total > 0 ? Math.round((resolved / total) * 100) : 0;
+
+    // Analytics: Avg Resolution Time (in days)
+    const resolvedList = await Complaint.find({ ...base, status: 'resolved', submittedAt: { $exists: true }, updatedAt: { $exists: true } });
+    let avgResolutionTime = 0;
+    if (resolvedList.length > 0) {
+      const totalMs = resolvedList.reduce((acc, c) => acc + (c.updatedAt - c.submittedAt), 0);
+      avgResolutionTime = (totalMs / resolvedList.length / (1000 * 60 * 60 * 24)).toFixed(1);
+    }
+
+    // Analytics: Citizens Served (unique citizens)
+    const uniqueCitizens = await Complaint.distinct('citizen', base);
+    const citizensServed = uniqueCitizens.length;
+
     res.json({ 
       total, pending, delayed, high, slaBreached, recent, categoryCounts, locationCounts,
+      resolutionRate, avgResolutionTime, citizensServed,
       department: req.user.department || "Authority",
       notifications
     });
