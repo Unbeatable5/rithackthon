@@ -18,7 +18,16 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 // ── Middleware ──
-app.use(cors());
+app.use(cors({
+  origin: true, // Dynamically allow any origin that makes the request
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true
+}));
+
+// Explicitly handle OPTIONS preflight across all routes
+app.options('*', cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
