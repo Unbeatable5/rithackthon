@@ -143,13 +143,14 @@
         </div>
       </div>
 
-      <!-- CITIZEN EVIDENCE / SUBMITTED IMAGE (RE-LOCATED) -->
-      <div id="citizen-evidence" class="submission-hero" style="display:none; margin: -10px 40px 30px;">
+      <div id="citizen-evidence" class="submission-hero" style="display:none;">
         <div class="hero-label">
           <span class="material-icons-outlined" style="font-size: 16px;">photo_camera</span>
-          SUBMITTED EVIDENCE
+          SUBMITTED EVIDENCE / ORIGINAL PROOF
         </div>
-        <img src="" alt="Evidence" class="hero-img">
+        <div class="hero-img-container" onclick="window.open(document.querySelector('.hero-img').src)">
+          <img src="" alt="Evidence" class="hero-img">
+        </div>
       </div>
 
       <!-- DEPARTMENT MESSAGE CARD (Shows when authority sends a message) -->
