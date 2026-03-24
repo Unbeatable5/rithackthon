@@ -2,8 +2,11 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`MongoDB connected: ${conn.connection.host}`);
+    console.log('[*] Connecting to MongoDB...');
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 5000 // 5 seconds instead of 30
+    });
+    console.log(`✅ MongoDB connected: ${conn.connection.host}`);
     
     // Drop old non-sparse indexes that cause E11000 duplicate null errors
     try {

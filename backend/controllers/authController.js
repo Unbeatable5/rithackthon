@@ -32,6 +32,7 @@ const sendOTP = async (recipient, otp) => {
 exports.citizenRegister = async (req, res) => {
   try {
     const { aadhaar, email } = req.body;
+    console.log(`[*] Registering citizen: ${email}`);
     if (!aadhaar || !/^\d{12}$/.test(aadhaar)) {
       return res.status(400).json({ error: 'Valid 12-digit Aadhaar number required' });
     }

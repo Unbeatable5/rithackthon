@@ -18,6 +18,11 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 // ── Middleware ──
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} - Origin: ${req.headers.origin}`);
+  next();
+});
+
 app.use(cors({
   origin: true, // Dynamically allow any origin that makes the request
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
