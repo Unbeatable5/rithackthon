@@ -48,9 +48,10 @@ const ComplaintSchema = new mongoose.Schema({
   // Authority actions
   departmentMessage: { type: String, default: '' },
   deadline:          { type: Date },
-  viewedAt:          { type: Date },       // first time authority opened it
+  viewedAt:          { type: Date },
   slaBreached:       { type: Boolean, default: false },
-  escalatedTo:       { type: String },     // higher authority email/role
+  escalatedTo:       { type: String },
+  assignedTo:        { type: mongoose.Schema.Types.ObjectId, ref: 'FieldWorker' }, // field worker
 
   // Timestamps
   submittedAt: { type: Date, default: Date.now },

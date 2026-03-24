@@ -89,6 +89,7 @@ function renderTable(complaints, tbodyId) {
         const cat = (c.category || 'other').charAt(0).toUpperCase() + (c.category || 'other').slice(1);
         const pri = (c.priority || 'medium').charAt(0).toUpperCase() + (c.priority || 'medium').slice(1);
         const statusText = (c.status || 'pending').replace('_',' ').toUpperCase();
+        const workerName = c.assignedTo ? c.assignedTo.name : '<span style="color:#d97706; font-size:11px;">🤖 AI Assigning...</span>';
 
         return `
             <tr data-submitted="${hoursAgo.toFixed(2)}" data-id="${c.complaintId}">
@@ -96,6 +97,7 @@ function renderTable(complaints, tbodyId) {
                 <td><strong>${c.complaintId || 'N/A'}</strong></td>
                 <td>${cat}</td>
                 <td><span class="badge badge-${c.status || 'pending'}">${statusText}</span></td>
+                <td>${workerName}</td>
                 <td>${c.area || 'N/A'}</td>
                 <td>${dateStr}</td>
                 <td><span class="pri-${c.priority || 'medium'}">${pri}</span></td>

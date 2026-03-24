@@ -14,6 +14,9 @@ const classifyComplaint = async (text) => {
   }
 };
 
+const FieldWorker = require('../models/FieldWorker');
+const fwController = require('./fieldWorkerController');
+
 // POST /api/complaints — citizen submits complaint
 exports.submitComplaint = async (req, res) => {
   try {
@@ -49,8 +52,20 @@ exports.submitComplaint = async (req, res) => {
       aiPriorityConfidence: aiResult.aiPriorityConfidence
     });
 
+    // ── AUTO-ASSIGN FIELD WORKER ──
+    const assignedWorker = await fwController.autoAssign(
+      complaint.complaintId,
+      complaint.assignedDept,
+      area
+    );
+
     console.log('Complaint Created Successfully:', complaint.complaintId);
-    res.status(201).json({ success: true, complaintId: complaint.complaintId, complaint });
+    res.status(201).json({ 
+      success: true, 
+      complaintId: complaint.complaintId, 
+      complaint,
+      assignedTo: assignedWorker ? { name: assignedWorker.name, id: assignedWorker.employeeId } : null
+    });
   } catch (err) {
     console.error('--- Complaint Submission FAILED ---');
     console.error(err);

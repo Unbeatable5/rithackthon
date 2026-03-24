@@ -1,58 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <title>Verification</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentinel | Identity Verification</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="verify.css">
   <link rel="stylesheet" href="neon-bg.css">
 </head>
-
 <body>
   <div class="neon-blur neon-blur-1"></div>
   <div class="neon-blur neon-blur-2"></div>
   <div class="neon-blur neon-blur-3"></div>
 
+  <!-- Global Navbar -->
   <nav class="navbar">
+    <div class="logo">CivicSense</div>
     <ul class="nav-links">
-      <div class="logo">CivicSense</div>
       <a href="index.html">Home</a>
-      <a href="track.html">Track Complaints</a>
+      <a href="submit.html">Report Issue</a>
+      <a href="newtrack.html">Track Status</a>
+      <a href="nearby.html">Nearby Issues</a>
     </ul>
+    <button id="nav-action-btn" class="nav-bar" onclick="handleMainAction()">Verify Identity</button>
   </nav>
 
   <div class="container">
-    <h2>Citizen Login / Register</h2>
+    <div class="sentinel-logo">
+        <span class="material-icons-outlined" style="font-size: 48px; color: #1E3A8A; filter: drop-shadow(0 0 10px rgba(30,58,138,0.3));">verified_user</span>
+        <h2>Citizen Verification</h2>
+    </div>
+    <p style="font-size:0.9rem; color:#64748b; margin-bottom:35px; line-height:1.5;">Welcome back. Please authenticate your identity to access the sentinel reporting network.</p>
 
-    <label>Mobile Number or Email Address</label>
-    <input id="userInput" class="mobile" type="text" placeholder="e.g. 9876543210 or user@example.com">
+    <!-- Aadhaar Section -->
+    <div class="input-group">
+        <label>Aadhaar Number</label>
+        <div class="input-wrapper">
+            <span class="material-icons-outlined field-icon">fingerprint</span>
+            <input id="userInput" type="text" inputmode="numeric" maxlength="12" placeholder="1234 5678 9012">
+        </div>
+    </div>
 
-    <button id="generateBtn" class="btn green">Generate OTP</button>
-
-    <!-- Loading -->
-    <div id="loading" class="hidden loading">Sending OTP...</div>
-
-    <!-- OTP -->
-    <div id="otpWrapper" class="otp-wrapper hidden" onclick="focusOTP()">
-      <input id="otpInput" type="text" maxlength="6" inputmode="numeric">
-      <div class="otp-boxes">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+    <!-- Email Section -->
+    <div id="emailSection" class="input-group">
+      <label>Email Address</label>
+      <div class="input-wrapper">
+        <span class="material-icons-outlined field-icon">alternate_email</span>
+        <input id="emailInput" type="email" placeholder="name@domain.com">
+        <button id="sendEmailOtpBtn" class="inline-btn">SEND OTP</button>
       </div>
     </div>
 
-    <button id="verifyBtn" class="btn blue hidden">Verify & Login</button>
+    <!-- Email OTP Input (Hidden by default) -->
+    <div id="emailOtpWrapper" class="input-group hidden">
+      <label>Security Code (Email)</label>
+      <div class="input-wrapper">
+        <span class="material-icons-outlined field-icon">security</span>
+        <input id="emailOtpInput" type="text" maxlength="6" inputmode="numeric" placeholder="6-digit code">
+        <button id="verifyEmailOtpBtn" class="inline-btn blue-btn">VERIFY</button>
+      </div>
+      <p id="emailOtpMsg"></p>
+    </div>
 
-    <p id="timer" class="hidden"></p>
+    <div class="divider"></div>
+
+    <button id="generateBtn" class="btn green disabled" disabled title="Please verify email first">
+        <span class="material-icons-outlined">cognition</span> 
+        Verify with Aadhaar
+    </button>
+
+    <!-- Loading -->
+    <div id="loading" class="hidden loading">
+        <span class="material-icons-outlined anim-pulse">lock_open</span>
+        Processing Secure Link...
+    </div>
+
+    <!-- Aadhaar OTP (Hidden) -->
+    <div id="otpWrapper" class="otp-wrapper hidden" onclick="focusOTP()">
+      <input id="otpInput" type="text" maxlength="6" inputmode="numeric">
+      <div class="otp-boxes">
+        <div></div><div></div><div></div><div></div><div></div><div></div>
+      </div>
+    </div>
+
+    <button id="verifyBtn" class="btn blue hidden">
+        <span class="material-icons-outlined">login</span>
+        VERIFY & ENTER
+    </button>
     <p id="msg"></p>
   </div>
 
-  <script src="api_client.js"></script>
-  <script src="verify.js"></script>
-</body>
+  <footer class="premium-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="logo">CivicSense</div>
+        <p>Empowering citizens through AI-driven grievance resolution and transparent governance mapping.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="submit.html">Report Issue</a></li>
+          <li><a href="newtrack.html">Track Status</a></li>
+          <li><a href="nearby.html">Nearby Issues</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="veri.html">Authority Login</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 <b>Unbeatable5</b>. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="#"><span class="material-icons-outlined">public</span></a>
+        <a href="#"><span class="material-icons-outlined">chat</span></a>
+        <a href="#"><span class="material-icons-outlined">mail</span></a>
+      </div>
+    </div>
+  </footer>
 
+  <!-- Chat Toggle Orb -->
+  <div id="chat-toggle" title="Chat with CivicSense AI">
+    <div class="orb-ring"></div>
+    <span class="material-icons-outlined" style="color:white; font-size:32px; z-index:2;">auto_awesome</span>
+  </div>
+
+  <!-- Chat Window -->
+  <div id="chat-window">
+    <div class="chat-header">
+      <div class="ai-avatar-sm">
+        <span class="material-icons-outlined" style="font-size:24px; color:white;">auto_awesome</span>
+      </div>
+      <div class="agent-info">
+        <div class="agent-name">CivicSense AI</div>
+        <div class="agent-status"><span class="status-dot"></span> Online</div>
+      </div>
+      <span id="chat-close" title="Close"><span class="material-icons-outlined" style="font-size:22px; color:#64748b;">close</span></span>
+    </div>
+
+    <div class="chat-body" id="chat-body">
+      <div class="bot-msg">
+        Hello! I'm your <b>Digital Assistant</b>. How can I help you improve our city today?
+      </div>
+      <div class="quick-replies">
+        <button onclick="quickReply('File Complaint')">Report Issue</button>
+        <button onclick="quickReply('Track Status')">Track Status</button>
+        <button onclick="quickReply('General Info')">Help Center</button>
+      </div>
+    </div>
+
+    <div class="chat-footer">
+      <input type="text" id="user-input" placeholder="Ask me anything..." />
+      <button id="send-btn"><span class="material-icons-outlined" style="font-size:20px;">send</span></button>
+    </div>
+  </div>
+
+  <script src="api_client.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script src="verify.js"></script>
+  <script src="script.js"></script>
+</body>
 </html>

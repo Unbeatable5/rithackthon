@@ -5,20 +5,22 @@ const sendBtn = document.getElementById("send-btn");
 const input = document.getElementById("user-input");
 const chatBody = document.getElementById("chat-body");
 
-toggle.onclick = () => {
-    chatWindow.style.display = "flex";
-    toggle.style.display = "none";
-};
+if (toggle && chatWindow && closeBtn && sendBtn && input && chatBody) {
+    toggle.onclick = () => {
+        chatWindow.style.display = "flex";
+        toggle.style.display = "none";
+    };
 
-closeBtn.onclick = () => {
-    chatWindow.style.display = "none";
-    toggle.style.display = "flex";
-};
+    closeBtn.onclick = () => {
+        chatWindow.style.display = "none";
+        toggle.style.display = "flex";
+    };
 
-sendBtn.onclick = sendMessage;
-input.addEventListener("keypress", e => {
-    if (e.key === "Enter") sendMessage();
-});
+    sendBtn.onclick = sendMessage;
+    input.addEventListener("keypress", e => {
+        if (e.key === "Enter") sendMessage();
+    });
+}
 
 async function sendMessage() {
     const text = input.value.trim();

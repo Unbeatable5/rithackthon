@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CivicSense - Authority Verification</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CivicSense | Authority Access</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="veri.css">
   <link rel="stylesheet" href="neon-bg.css">
 </head>
@@ -13,59 +15,98 @@
   <div class="neon-blur neon-blur-2"></div>
   <div class="neon-blur neon-blur-3"></div>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-        
-            <ul class="nav-links">
-                <div class="logo">CivicSense</div>
-            <a href="index.html">Home</a>
+  <!-- Global Navbar -->
+  <nav class="navbar">
+    <div class="logo">CivicSense</div>
+    <ul class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="submit.html">Report Issue</a>
+      <a href="newtrack.html">Track Status</a>
+      <a href="nearby.html">Nearby Issues</a>
+    </ul>
+    <button id="nav-action-btn" class="nav-bar" onclick="handleMainAction()">Verify Identity</button>
+  </nav>
 
-            <!-- <a href="#how-it-works">How It Work</a> -->
-              <a href="track.html">Track Complaints</a>
-            </ul>
-             </nav>
-    
-<!-- MAIN -->
-<main class="login-container">
-  <div class="login-card">
-    <div class="login-header">
-      <span class="material-icons-outlined" style="font-size: 54px; color: #1E3A8A; margin-bottom:10px;">admin_panel_settings</span>
-      <h2>Authority Access</h2>
-      <p>Secure Government Terminal</p>
+  <!-- Main Container -->
+  <main class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <span class="material-icons-outlined" style="font-size: 64px; color: #1E3A8A; margin-bottom:15px; filter: drop-shadow(0 0 10px rgba(30,58,138,0.2));">admin_panel_settings</span>
+        <h2>Authority Access</h2>
+        <p>Sentinel Operations Terminal</p>
+      </div>
+
+      <!-- Login Form -->
+      <form id="verifyForm" class="minimal-form">
+        <div class="input-group">
+          <span class="material-icons-outlined input-icon">badge</span>
+          <input type="text" id="authId" placeholder="Authority ID / Email" required>
+        </div>
+
+        <div class="input-group">
+          <span class="material-icons-outlined input-icon">lock</span>
+          <input type="password" id="password" placeholder="Secure Password" required>
+        </div>
+
+        <div class="input-group">
+          <span class="material-icons-outlined input-icon">account_balance</span>
+          <select id="department" required>
+            <option value="" disabled selected>Select Department Hub</option>
+            <option value="water">Water Supply</option>
+            <option value="road">Road & Infrastructure</option>
+            <option value="electrical">Electricity</option>
+            <option value="sanitation">Sanitation & Garbage</option>
+            <option value="administration">Administration</option>
+          </select>
+        </div>
+
+        <button type="submit" class="auth-btn">
+          AUTHENTICATE 
+          <span class="material-icons-outlined" style="font-size:20px; vertical-align:middle; margin-left:8px;">radar</span>
+        </button>
+      </form>
+
+      <p id="msg" class="status-msg"></p>
     </div>
+  </main>
 
-    <!-- FORM -->
-    <form id="verifyForm" class="minimal-form">
-      <div class="input-group">
-        <span class="material-icons-outlined input-icon">badge</span>
-        <input type="text" id="authId" placeholder="Authority ID / Email" required>
+  <!-- Global Footer -->
+  <footer class="premium-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="logo">CivicSense</div>
+        <p>Empowering citizens through AI-driven grievance resolution and transparent governance mapping.</p>
       </div>
-
-      <div class="input-group">
-        <span class="material-icons-outlined input-icon">lock</span>
-        <input type="password" id="password" placeholder="Secure Password" required>
+      <div class="footer-links">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="submit.html">Report Issue</a></li>
+          <li><a href="newtrack.html">Track Status</a></li>
+          <li><a href="nearby.html">Nearby Issues</a></li>
+        </ul>
       </div>
-
-      <div class="input-group">
-        <span class="material-icons-outlined input-icon">account_balance</span>
-        <select id="department" required>
-          <option value="" disabled selected>Select Department Hub</option>
-          <option value="water">Water Supply</option>
-          <option value="road">Road & Infrastructure</option>
-          <option value="electrical">Electricity</option>
-          <option value="sanitation">Sanitation & Garbage</option>
-          <option value="administration">Administration</option>
-        </select>
+      <div class="footer-links">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="veri.html">Authority Login</a></li>
+        </ul>
       </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 <b>Unbeatable5</b>. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="#"><span class="material-icons-outlined">public</span></a>
+        <a href="#"><span class="material-icons-outlined">chat</span></a>
+        <a href="#"><span class="material-icons-outlined">mail</span></a>
+      </div>
+    </div>
+  </footer>
 
-      <button type="submit" class="auth-btn">Authenticate <span class="material-icons-outlined" style="font-size:18px; vertical-align:middle; line-height:0; margin-left:5px;">arrow_forward</span></button>
-    </form>
-
-    <p id="msg" class="status-msg"></p>
-  </div>
-</main>
-
-<script src="api_client.js"></script>
-<script src="veri.js"></script>
+  <script src="api_client.js"></script>
+  <script src="veri.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

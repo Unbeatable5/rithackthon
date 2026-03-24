@@ -2,171 +2,235 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Track Complaint Status</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="newtrack.css">
-    <link rel="stylesheet" href="neon-bg.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CivicSense AI - Track Status</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="newtrack.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="neon-bg.css">
 </head>
 
-<body id="newtrack">
+<body>
   <div class="neon-blur neon-blur-1"></div>
   <div class="neon-blur neon-blur-2"></div>
   <div class="neon-blur neon-blur-3"></div>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">CivicSense</div>
+    <ul class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="newtrack.html">Track Status</a>
+      <a href="nearby.html">Nearby Issues</a>
+    </ul>
+  </nav>
 
-        <ul class="nav-links">
-            <div class="logo">CivicSense</div>
-            <a href="index.html">Home</a>
-            <a href="track.html">Track Complaints</a>
-      <a href="nearby.html">View Nearby Complaints</a>
+  <!-- CONTENT -->
+  <main class="container">
+    <h1>Track Resolution</h1>
+    <p class="subtitle">AI-powered predictive tracking and SLA monitoring</p>
 
-            <!-- <a href="#how-it-works">How It Work</a> -->
-            <!-- <a href="track.html">Track Complaints</a> -->
-        </ul>
-    </nav>
-
-
-    <!-- CONTENT -->
-    <div class="container">
-        <h1>Track Complaint Status</h1>
-
-        <div class="search-box">
-            <input type="text" id="complaintId" placeholder="Complaint ID">
-            <button onclick="checkStatus()">Check</button>
-        </div>
-
-        <div id="result" style="display:none;">
-            <!-- The table above was redundant, we use the detailed card below for all info -->
-        </div>
-
-
-        <div class="back-btn">
-            <button onclick="goHome()">Back to Home</button>
-        </div>
-    </div>
-
-     <div class="card" id="resultCard">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
-        <div class="section-badge" style="display:inline-block; padding:6px 14px; background:rgba(30,58,138,0.1); color:#1E3A8A; border-radius:20px; font-weight:600; font-size:12px; text-transform:uppercase;">Live AI Tracking</div>
-        <div class="sla-badge" style="padding:6px 14px; background:rgba(231,76,60,0.1); color:#e74c3c; border-radius:20px; font-weight:800; font-size:12px; display:flex; align-items:center; gap:5px;"><span class="material-icons-outlined" style="font-size:16px;">warning</span> SLA Escalate (24h breach)</div>
-    </div>
-    
-    <div class="fields">
-      <div class="field"><span class="label">Complaint Id :</span><span class="value" id="f-id">ew8debg3uy3b</span></div>
-      <div class="field"><span class="label">Priority:</span><span class="value" id="f-priority">High</span></div>
-
-      <div class="field"><span class="label">Title:</span><span class="value" id="f-title">Water Issue</span></div>
-      <div class="field"><span class="label">Category:</span><span class="value" id="f-category">Water</span></div>
-      <div class="field"><span class="label">Area / Locality:</span><span class="value" id="f-area">Sector 4</span></div>
-
-
-      <div class="field"><span class="label">Date Submitted:</span><span class="value" id="f-date">12-04-2024</span></div>
-      <div class="field"><span class="label">Deadline:</span><span class="value" id="f-deadline">14-04-2024</span></div>
-
-      <div class="field"><span class="label">Status:</span><span class="value" id="f-status" style="color: #489c4c; font-weight:bold;">Solved</span></div>
-      <div class="field"><span class="label">Assigned Department:</span><span class="value" id="f-dept">Water</span></div>
-      <div id="citizen-info" style="display:none; margin-top:10px; padding-top:10px; border-top:1px dashed #e2e8f0;">
-          <div class="field"><span class="label">Reported By:</span><span class="value" id="f-citizen-name">John Doe</span></div>
-          <div class="field"><span class="label">Contact:</span><span class="value" id="f-citizen-contact">+91 9876543210</span></div>
+    <!-- SEARCH SECTION -->
+    <div class="search-section">
+      <div class="search-box">
+        <input type="text" id="complaintId" placeholder="Enter Complaint ID (e.g. cv8debg3)">
+        <button onclick="checkStatus()">
+          <span class="material-icons-outlined">search</span> Search
+        </button>
       </div>
     </div>
 
+    <!-- RESULT CARD -->
+    <div class="result-card" id="resultCard">
+      
+      <div class="card-header">
+        <div>
+          <span style="font-size: 0.75rem; color: #64748b; font-weight: 800; text-transform: uppercase;">Tracking Instance</span>
+          <h2 id="f-id" style="font-size: 1.4rem; color: var(--primary);">CV8DEBG3UY3B</h2>
+          <div id="sla-badge" class="sla-alert" style="display:none;">
+            <span class="material-icons-outlined" style="font-size: 14px;">report_problem</span>
+            SLA BREACHED: Immediate Escalation Active
+          </div>
+        </div>
+        <div id="status-badge" class="status-badge status-pending">
+          <span class="material-icons-outlined" style="font-size: 18px;">analytics</span>
+          <span id="f-status">PENDING</span>
+        </div>
+      </div>
 
-    <div class="desc-label">Complaint Description</div>
-    <div class="desc-text" id="f-desc">
-      Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br> Lorem Ipsum
-      has been the industry's standard dummy text ever since the 1500s,<br> when an unknown
-      printer took a galley of type and scrambled it to make a type specimen book.
+      <div class="card-content">
+        <!-- INFO -->
+        <div class="info-section">
+          <h3>Complaint Metadata</h3>
+          <div class="data-grid">
+            <div class="data-item">
+              <span class="data-label">Title / Context</span>
+              <span class="data-value" id="f-title">Water Pipeline Leak</span>
+            </div>
+            <div class="data-item">
+              <span class="data-label">AI Priority Level</span>
+              <span class="data-value" id="f-priority" style="color:var(--danger)">URGENT</span>
+            </div>
+            <div class="data-item">
+              <span class="data-label">Category</span>
+              <span class="data-value" id="f-category">WATER SUPPLY</span>
+            </div>
+            <div class="data-item">
+              <span class="data-label">Assigned Department</span>
+              <span class="data-value" id="f-dept">WATER & SEWAGE</span>
+            </div>
+            <div class="data-item">
+              <span class="data-label">Submission Date</span>
+              <span class="data-value" id="f-date">24/03/2026</span>
+            </div>
+            <div class="data-item">
+              <span class="data-label">Resolution Deadline</span>
+              <span class="data-value" id="f-deadline">26/03/2026</span>
+            </div>
+          </div>
+
+          <div class="complaint-desc">
+            <div style="font-weight: 800; font-size: 0.75rem; color: var(--primary); margin-bottom: 5px;">INPUT SUMMARY</div>
+            <p id="f-desc">Loading complaint data...</p>
+          </div>
+        </div>
+
+        <!-- STEPPER -->
+        <div class="tracking-stepper">
+          <h3>Real-time Status</h3>
+          <div class="stepper-line"></div>
+          <div class="stepper-line-active" id="active-line"></div>
+
+          <div class="step-node" id="step-1">
+            <div class="node-dot"></div>
+            <div class="node-info">
+              <span class="node-title">Verified Submission</span>
+              <span class="node-sub">Complaint received and authenticated</span>
+            </div>
+          </div>
+
+          <div class="step-node" id="step-2">
+            <div class="node-dot"></div>
+            <div class="node-info">
+              <span class="node-title">Authority Appraisal</span>
+              <span class="node-sub">Relevant department has viewed your report</span>
+            </div>
+          </div>
+
+          <div class="step-node" id="step-3">
+            <div class="node-dot"></div>
+            <div class="node-info">
+              <span class="node-title">Active Resolution</span>
+              <span class="node-sub">Field workers dispatched to the site</span>
+            </div>
+          </div>
+
+          <div class="step-node" id="step-4">
+            <div class="node-dot"></div>
+            <div class="node-info">
+              <span class="node-title">Resolution Finalized</span>
+              <span class="node-sub">AI verified work completion</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PROOF AREA -->
+      <div class="proof-section">
+        <div class="proof-card" id="citizen-evidence">
+          <div class="proof-header">
+            <span class="material-icons-outlined" style="color:var(--primary)">image</span>
+            Citizen Submission
+          </div>
+          <img src="" alt="Evidence" class="proof-img">
+          <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">
+            Initial photo analyzed by AI for authenticity.
+          </p>
+        </div>
+
+        <div class="proof-card" id="f-proof" style="display:none;">
+          <div class="proof-header">
+            <span class="material-icons-outlined" style="color:var(--accent)">verified</span>
+            Authority Resolution
+          </div>
+          <img src="" alt="Proof" class="proof-img">
+          <p id="f-msg-text" style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">
+            Issue marked as resolved by department.
+          </p>
+        </div>
+      </div>
+
+      <!-- SYSTEM TRACE -->
+      <div class="trace-logs">
+        <h3 style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px;">
+          System Event Trace
+          <span class="live-indicator"></span>
+        </h3>
+        <div class="trace-box" id="trace-box">
+          <div class="trace-line">
+            <span class="trace-time">[TIMESTAMP]</span>
+            <span class="trace-cmd">> CLASSIFIER:</span>
+            <span class="trace-msg">Categorizing request... (Match 98.4%)</span>
+          </div>
+          <div class="trace-line">
+            <span class="trace-time">[TIMESTAMP]</span>
+            <span class="trace-cmd">> ROUTER:</span>
+            <span class="trace-msg">Assigning to Dept Field Worker...</span>
+          </div>
+          <div class="trace-line">
+            <span class="trace-time">[TIMESTAMP]</span>
+            <span class="trace-cmd">> WATCHDOG:</span>
+            <span class="trace-msg">SLA Countdown initiated (48h Remaining)</span>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Citizen Evidence properly synced to display original photo -->
-    <div class="proof-box" id="citizen-evidence" style="background: rgba(255,255,255,0.7); border-color: rgba(30,58,138,0.15);">
-        <div class="desc-label" style="display: flex; align-items:center; gap: 8px; color:#1E3A8A;">
-        <span class="material-icons-outlined" style="color: #1E3A8A; font-size: 20px;">image</span> 
-        Original Citizen Submission
-        </div>
-        <div class="proof-content" style="margin-top: 15px;">
-        <img src="photo9.jpeg" alt="Original Submission" class="proof-image">
-        <div class="proof-details">
-            <p><strong>Metadata:</strong> Verified EXIF Integrity.</p>
-            <p><strong>Timestamp:</strong> Generated at exact reported coordinates.</p>
-        </div>
-        </div>
+    <div class="footer-btns">
+      <button class="btn-secondary" onclick="goHome()">Return to Dashboard</button>
+    </div>
+    <!-- Chat Toggle Orb -->
+  <div id="chat-toggle" title="Chat with CivicSense AI">
+    <div class="orb-ring"></div>
+    <span class="material-icons-outlined" style="color:white; font-size:32px; z-index:2;">auto_awesome</span>
+  </div>
+
+  <!-- Chat Window -->
+  <div id="chat-window">
+    <div class="chat-header">
+      <div class="ai-avatar-sm">
+        <span class="material-icons-outlined" style="font-size:24px; color:white;">auto_awesome</span>
+      </div>
+      <div class="agent-info">
+        <div class="agent-name">CivicSense AI</div>
+        <div class="agent-status"><span class="status-dot"></span> Online</div>
+      </div>
+      <span id="chat-close" title="Close"><span class="material-icons-outlined" style="font-size:22px; color:#64748b;">close</span></span>
     </div>
 
-    <!-- Department Message -->
-    <div class="proof-box" id="f-message" style="display: none; background: rgba(30,58,138,0.05); border-color: rgba(30,58,138,0.2);">
-      <div class="desc-label" style="display: flex; align-items:center; gap: 8px; color: #1E3A8A;">
-        <span class="material-icons-outlined" style="color: #1E3A8A; font-size: 20px;">maps_ugc</span> 
-        Message from Department
+    <div class="chat-body" id="chat-body">
+      <div class="bot-msg">
+        Hello! I'm your <b>Digital Assistant</b>. How can I help you improve our city today?
       </div>
-      <div class="proof-content" style="margin-top: 5px;">
-        <div class="proof-details">
-          <p id="f-msg-text" style="font-weight: 500; font-size: 14.5px;">Your complaint has been reviewed and a team is being dispatched to assess the site tomorrow.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="proof-box" id="f-proof" style="display: none;">
-      <div class="desc-label" style="display: flex; align-items:center; gap: 8px;">
-        <span class="material-icons-outlined" style="color: #489c4c; font-size: 20px;">verified</span> 
-        Department Resolution Proof
-      </div>
-      <div class="proof-content">
-        <img src="photo1.jpeg" alt="Resolved Issue" class="proof-image">
-        <div class="proof-details">
-          <p>This issue was marked as resolved by the municipal department. Automated AI verification confirms structural repairs are complete.</p>
-        </div>
+      <div class="quick-replies">
+        <button onclick="quickReply('File Complaint')">Report Issue</button>
+        <button onclick="quickReply('Track Status')">Track Status</button>
+        <button onclick="quickReply('General Info')">Help Center</button>
       </div>
     </div>
 
-    <!-- Automation Logs -->
-    <div class="proof-box" id="system-logs" style="background: rgba(248,250,252,0.8); border: 1px dashed #cbd5e1; margin-bottom:30px;">
-        <div class="desc-label" style="display: flex; align-items:center; gap: 8px; font-size:0.9rem; color:#475569;">
-        <span class="material-icons-outlined" style="color: #475569; font-size: 18px;">history</span> 
-        Automated System Logs
-        </div>
-        <ul style="list-style:none; font-size:0.85rem; color:#64748b; margin-top:10px; padding-left:5px; line-height:1.7;">
-            <li><span class="material-icons-outlined" style="font-size:12px; vertical-align:middle; color:#1E3A8A;">mark_email_read</span> <strong>System:</strong> Confirmation SMS + Email dispatched to citizen (+91-7474****19).</li>
-            <li><span class="material-icons-outlined" style="font-size:12px; vertical-align:middle; color:#e74c3c;">notifications_active</span> <strong>AI Watchdog:</strong> +24h passed without department review view. Auto-reminders fired to Local Engineers.</li>
-            <li><span class="material-icons-outlined" style="font-size:12px; vertical-align:middle; color:#e74c3c;">swap_calls</span> <strong>AI Watchdog:</strong> SLA Breached. Dynamic routing enforced. Complaint natively escalated to Higher Authority.</li>
-        </ul>
-    </div>
-
-    <!-- Stepper -->
-    <div class="stepper">
-      <div class="step">
-        <div class="step-box active"><span class="material-icons-outlined">upload_file</span></div>
-        <div class="step-label">Submitted</div>
-      </div>
-      <div class="step-line active-line"></div>
-      <div class="step">
-        <div class="step-box active"><span class="material-icons-outlined">visibility</span></div>
-        <div class="step-label">Viewed</div>
-      </div>
-      <div class="step-line active-line"></div>
-      <div class="step">
-        <div class="step-box active"><span class="material-icons-outlined">engineering</span></div>
-        <div class="step-label">In Progress</div>
-      </div>
-      <div class="step-line active-line"></div>
-      <div class="step">
-        <div class="step-box active"><span class="material-icons-outlined">check_circle</span></div>
-        <div class="step-label">Resolved</div>
-      </div>
+    <div class="chat-footer">
+      <input type="text" id="user-input" placeholder="Ask me anything..." />
+      <button id="send-btn"><span class="material-icons-outlined" style="font-size:20px;">send</span></button>
     </div>
   </div>
-</main>
+  </main>
 
-
-    <script src="newtrack.js"></script>
-
-     
-
+  <script src="api_client.js"></script>
+  <script src="newtrack.js"></script>
+  <script src="script.js"></script>
 </body>
-
 </html>

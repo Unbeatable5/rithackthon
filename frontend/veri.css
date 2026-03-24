@@ -12,72 +12,8 @@ body {
   color: #333;
 }
 
-/* NAVBAR */
-.navbar {
-  position: sticky;
-  top: 0;
-  z-index: 2000;
+/* Navbar styles removed - handled by style.css */
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  height: 80px;
-  background-color: none;
-  padding: 10px 20px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-}
-
-.navbar a:hover {
-  color: #489c4c;
-}
-
-
-#how-it-works {
-  scroll-margin-top: 100px;
-}
-
-#track-complaints {
-  scroll-margin-top: 100px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 40px;
-  position: sticky;
-  top: 0;
-  list-style: none;
-}
-
-
-
-
-.nav-links a {
-  margin: 10px 0 0 0;
-  font-size: 1.1rem;
-  text-decoration: none;
-  color: black;
-  font-weight: normal;
-  transition: 0.3s;
-}
-
-.logo {
-  color: #1E3A8A;
-  font-size: 2rem;
-  font-weight: bold;
-  /* padding-bottom: ; */
-  margin-left: 50px;
-}
-
-.nav-bar {
-  background-color: var(--secondary-green);
-  margin: 5px 30px 0 0;
-  height: 40px;
-  color: var(--light-bg);
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
 
 /* ── MINIMALIST AI LOGIN ── */
 .login-container {

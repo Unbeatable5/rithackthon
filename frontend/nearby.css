@@ -1,57 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
-  min-height: 100vh;
-  color: #1e293b;
-}
-
-/* ── NAVBAR ── */
-.navbar {
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 50px;
-  height: 70px;
-  background: rgba(255,255,255,0.9);
-  backdrop-filter: blur(15px);
-  border-bottom: 1px solid rgba(30,58,138,0.08);
-  box-shadow: 0 2px 12px rgba(30,58,138,0.07);
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #1E3A8A;
-  letter-spacing: -0.5px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 35px;
-  list-style: none;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: #64748b;
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: color 0.2s;
-}
-
-.nav-links a:hover, .nav-links a.active {
-  color: #1E3A8A;
-  font-weight: 700;
-}
-
-/* ── HERO ── */
+/* --- Layout synchronized with global style.css --- */
+ 
+ /* ── HERO ── */
 .hero-section {
   padding: 60px 50px 40px;
   text-align: center;

@@ -1,7 +1,8 @@
-const jwt      = require('jsonwebtoken');
+const jwt        = require('jsonwebtoken');
+const bcrypt     = require('bcryptjs');
 const nodemailer = require('nodemailer');
-const Citizen   = require('../models/Citizen');
-const Authority = require('../models/Authority');
+const Citizen    = require('../models/Citizen');
+const Authority  = require('../models/Authority');
 
 const signToken = (id, type) =>
   jwt.sign({ id, type }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
@@ -27,16 +28,30 @@ const sendOTP = async (recipient, otp) => {
   }
 };
 
-// POST /api/auth/citizen/register
+// POST /api/auth/citizen/register (Aadhaar-based)
 exports.citizenRegister = async (req, res) => {
   try {
-    const { name, identifier } = req.body; // 'identifier' can be email or phone
-    if (!identifier) return res.status(400).json({ error: 'Email or Phone required' });
+    const { aadhaar } = req.body;
+    if (!aadhaar || !/^\d{12}$/.test(aadhaar)) {
+      return res.status(400).json({ error: 'Valid 12-digit Aadhaar number required' });
+    }
 
-    const isEmail = identifier.includes('@');
-    const query = isEmail ? { email: identifier } : { phone: identifier };
+    // Hash Aadhaar for privacy
+    const aadhaarHash = await bcrypt.hash(aadhaar, 10);
+    const aadhaarMasked = `XXXX-XXXX-${aadhaar.slice(-4)}`;
 
-    let citizen = await Citizen.findOne(query);
+    // Find existing citizen by checking hash
+    const allCitizens = await Citizen.find({});
+    let citizen = null;
+    for (const c of allCitizens) {
+      if (c.aadhaarHash && await bcrypt.compare(aadhaar, c.aadhaarHash)) { citizen = c; break; }
+    }
+
+    // Check if banned
+    if (citizen && citizen.isBanned) {
+      return res.status(403).json({ error: '🚫 Your account has been suspended due to repeated false complaints.' });
+    }
+
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
 
@@ -45,37 +60,42 @@ exports.citizenRegister = async (req, res) => {
       citizen.otpExpiry = otpExpiry;
       await citizen.save();
     } else {
-      const citizenData = {
-        name: name || 'Citizen',
+      citizen = await Citizen.create({
+        name: `Citizen-${aadhaar.slice(-4)}`,
+        aadhaarHash,
+        aadhaarMasked,
         passwordHash: 'otp_only',
         otp,
         otpExpiry
-      };
-      if (isEmail) citizenData.email = identifier;
-      else citizenData.phone = identifier;
-
-      citizen = new Citizen(citizenData);
-      await citizen.save();
+      });
     }
 
-    const sent = await sendOTP(identifier, otp);
-    res.status(200).json({ 
-      message: sent ? 'OTP sent successfully!' : 'OTP generated (Mock Mode - Check Server Console)',
-      isMock: !sent 
+    const sent = await sendOTP(aadhaarMasked, otp);
+    console.log(otp); // print OTP for dev/hackathon mode
+    res.status(200).json({
+      message: sent ? 'OTP sent!' : 'OTP generated (Mock Mode)',
+      isMock: !sent,
+      aadhaarMasked
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// POST /api/auth/citizen/verify-otp
+// POST /api/auth/citizen/verify-otp (Aadhaar-based)
 exports.citizenVerifyOTP = async (req, res) => {
   try {
-    const { identifier, otp } = req.body;
-    const isEmail = identifier.includes('@');
-    const query = isEmail ? { email: identifier } : { phone: identifier };
+    const { aadhaar, otp } = req.body;
+    if (!aadhaar || !/^\d{12}$/.test(aadhaar)) {
+      return res.status(400).json({ error: 'Valid Aadhaar required' });
+    }
 
-    const citizen = await Citizen.findOne(query);
+    const allCitizens = await Citizen.find({});
+    let citizen = null;
+    for (const c of allCitizens) {
+      if (c.aadhaarHash && await bcrypt.compare(aadhaar, c.aadhaarHash)) { citizen = c; break; }
+    }
+
     if (!citizen) return res.status(404).json({ error: 'Citizen not found' });
     if (citizen.otp !== otp) return res.status(400).json({ error: 'Invalid OTP' });
     if (citizen.otpExpiry < Date.now()) return res.status(400).json({ error: 'OTP expired' });
@@ -86,7 +106,7 @@ exports.citizenVerifyOTP = async (req, res) => {
     await citizen.save();
 
     const token = signToken(citizen._id, 'citizen');
-    res.json({ token, citizen: { id: citizen._id, name: citizen.name, email: citizen.email, phone: citizen.phone } });
+    res.json({ token, citizen: { id: citizen._id, name: citizen.name, aadhaarMasked: citizen.aadhaarMasked } });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

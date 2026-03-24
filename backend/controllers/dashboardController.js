@@ -20,6 +20,7 @@ exports.listComplaints = async (req, res) => {
     const total = await Complaint.countDocuments(filter);
     const complaints = await Complaint.find(filter)
       .populate('citizen', 'name email phone')
+      .populate('assignedTo', 'name employeeId phone sectors')
       .sort({ submittedAt: -1 })
       .skip(skip)
       .limit(Number(limit));
@@ -36,7 +37,9 @@ exports.getComplaintDetail = async (req, res) => {
     const filter = { complaintId: req.params.id, ...(req.deptFilter || {}) };
     console.log(`[AUTH LOG] Dept Account: ${req.user.department} | Requesting ID: ${req.params.id}`);
     
-    const complaint = await Complaint.findOne(filter).populate('citizen', 'name email phone');
+    const complaint = await Complaint.findOne(filter)
+      .populate('citizen', 'name email phone')
+      .populate('assignedTo', 'name employeeId phone sectors');
     if (!complaint) return res.status(404).json({ error: 'Complaint not found or access denied' });
 
     // Mark as viewed (first open triggers SLA view timestamp)
@@ -89,6 +92,7 @@ exports.getDashboardStats = async (req, res) => {
     // Recent 10 complaints
     const recent = await Complaint.find(base)
       .populate('citizen', 'name phone')
+      .populate('assignedTo', 'name employeeId phone sectors')
       .sort({ submittedAt: -1 })
       .limit(10);
     

@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CivicSense - Nearby Complaints</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="nearby.css">
   <link rel="stylesheet" href="neon-bg.css">
 </head>
@@ -21,8 +21,9 @@
     <div class="logo">CivicSense</div>
     <ul class="nav-links">
       <a href="index.html">Home</a>
-      <a href="track.html">Track Complaints</a>
-      <a href="nearby.html" class="active">Nearby Complaints</a>
+      <a href="submit.html">Report Issue</a>
+      <a href="newtrack.html">Track Status</a>
+      <a href="nearby.html" class="active">Nearby Issues</a>
     </ul>
   </nav>
 
@@ -98,8 +99,79 @@
     <p id="emptyDesc">Try a different pincode or select a different ward.</p>
   </div>
 
+  <footer class="premium-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="logo">CivicSense</div>
+        <p>Empowering citizens through AI-driven grievance resolution and transparent governance mapping.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="submit.html">Report Issue</a></li>
+          <li><a href="newtrack.html">Track Status</a></li>
+          <li><a href="nearby.html">Nearby Issues</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="veri.html">Authority Login</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 <b>Unbeatable5</b>. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="#"><span class="material-icons-outlined">public</span></a>
+        <a href="#"><span class="material-icons-outlined">chat</span></a>
+        <a href="#"><span class="material-icons-outlined">mail</span></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chat Toggle Orb -->
+  <div id="chat-toggle" title="Chat with CivicSense AI">
+    <div class="orb-ring"></div>
+    <span class="material-icons-outlined" style="color:white; font-size:32px; z-index:2;">auto_awesome</span>
+  </div>
+
+  <!-- Chat Window -->
+  <div id="chat-window">
+    <div class="chat-header">
+      <div class="ai-avatar-sm">
+        <span class="material-icons-outlined" style="font-size:24px; color:white;">auto_awesome</span>
+      </div>
+      <div class="agent-info">
+        <div class="agent-name">CivicSense AI</div>
+        <div class="agent-status"><span class="status-dot"></span> Online</div>
+      </div>
+      <span id="chat-close" title="Close"><span class="material-icons-outlined" style="font-size:22px; color:#64748b;">close</span></span>
+    </div>
+
+    <div class="chat-body" id="chat-body">
+      <div class="bot-msg">
+        Hello! I'm your <b>Digital Assistant</b>. How can I help you improve our city today?
+      </div>
+      <div class="quick-replies">
+        <button onclick="quickReply('File Complaint')">Report Issue</button>
+        <button onclick="quickReply('Track Status')">Track Status</button>
+        <button onclick="quickReply('General Info')">Help Center</button>
+      </div>
+    </div>
+
+    <div class="chat-footer">
+      <input type="text" id="user-input" placeholder="Ask me anything..." />
+      <button id="send-btn"><span class="material-icons-outlined" style="font-size:20px;">send</span></button>
+    </div>
+  </div>
+
   <script src="api_client.js"></script>
   <script src="nearby.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
 </body>

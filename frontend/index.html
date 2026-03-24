@@ -15,14 +15,19 @@
 
 
 
+  <div class="neon-blur neon-blur-1"></div>
+  <div class="neon-blur neon-blur-2"></div>
+  <div class="neon-blur neon-blur-3"></div>
+
   <nav class="navbar">
+    <div class="logo">CivicSense</div>
     <ul class="nav-links">
-      <div class="logo">CivicSense</div>
-      <a href="#top">Home</a>
-      <a href="#how">How It Work</a>
-      <a href="track.html">Track Complaints</a>
+      <a href="index.html">Home</a>
+      <a href="submit.html">Report Issue</a>
+      <a href="newtrack.html">Track Status</a>
+      <a href="nearby.html">Nearby Issues</a>
     </ul>
-    <button id="nav-action-btn" class="nav-bar" onclick="handleMainAction()">Verify Now</button>
+    <button id="nav-action-btn" class="nav-bar" onclick="handleMainAction()">Verify Identity</button>
   </nav>
 
 
@@ -43,45 +48,33 @@
   </div>
   </div>
 
-  <!-- Chat Toggle Button (fixed, outside all containers) -->
+  <!-- Chat Toggle Orb -->
   <div id="chat-toggle" title="Chat with CivicSense AI">
     <div class="orb-ring"></div>
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px; height:32px; position:relative; z-index:2; filter: drop-shadow(0 0 4px rgba(255,255,255,0.8));">
-      <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="url(#paint0_linear)"/>
-      <path d="M15.5 9.5L12 12L8.5 9.5M12 18V12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="12" cy="12" r="2" fill="white"/>
-      <defs>
-        <linearGradient id="paint0_linear" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#38bdf8"/>
-          <stop offset="1" stop-color="#a855f7"/>
-        </linearGradient>
-      </defs>
-    </svg>
+    <span class="material-icons-outlined" style="color:white; font-size:32px; z-index:2;">auto_awesome</span>
   </div>
 
   <!-- Chat Window (fixed, outside all containers) -->
   <div id="chat-window">
     <div class="chat-header">
       <div class="ai-avatar-sm">
-        <span class="material-icons-outlined" style="font-size:20px; color:white;">smart_toy</span>
+        <span class="material-icons-outlined" style="font-size:24px; color:white;">auto_awesome</span>
       </div>
       <div class="agent-info">
         <div class="agent-name">CivicSense AI</div>
-        <div class="agent-status"><span class="status-dot"></span> Online &amp; Ready</div>
+        <div class="agent-status"><span class="status-dot"></span> Online</div>
       </div>
-      <span id="chat-close" title="Close"><span class="material-icons-outlined"
-          style="font-size:20px;">close</span></span>
+      <span id="chat-close" title="Close"><span class="material-icons-outlined" style="font-size:22px; color:#64748b;">close</span></span>
     </div>
 
     <div class="chat-body" id="chat-body">
       <div class="bot-msg">
-        Hey there! 👋 I'm your <strong>CivicSense AI</strong> assistant. How can I help you today?
+        Hello! I'm your <b>Digital Assistant</b>. How can I help you improve our city today?
       </div>
       <div class="quick-replies">
-        <button onclick="quickReply('File Complaint')">🗂 File Complaint</button>
-        <button onclick="quickReply('Track Status')">📍 Track Status</button>
-        <button onclick="quickReply('Emergency Issue')">🚨 Emergency</button>
-        <button onclick="quickReply('Other Help')">💬 Other Help</button>
+        <button onclick="quickReply('File Complaint')">Report Issue</button>
+        <button onclick="quickReply('Track Status')">Track Status</button>
+        <button onclick="quickReply('General Info')">Help Center</button>
       </div>
     </div>
 
@@ -91,11 +84,7 @@
     </div>
   </div>
 
-  <div class="neon-blur neon-blur-1"></div>
-  <div class="neon-blur neon-blur-2"></div>
-  <div class="neon-blur neon-blur-3"></div>
-
-  <div class="container2">
+  <div class="sentinel-container">
     <div class="section-badge">AI-Powered Capabilities</div>
     <h2>Next-Generation Features</h2>
 
@@ -128,7 +117,7 @@
 
   <section class="how-it-works" id="how">
 
-    <div class="container3">
+    <div class="sentinel-container">
       <div class="section-badge">Streamlined Flow</div>
       <h1>How it works</h1>
       <p class="subtitle">
@@ -213,30 +202,47 @@
       <button id="bottom-action-btn" class="btn1" onclick="handleMainAction()">Complaint Now</button>
 
 
-      <form action="track.html">
+      <form action="newtrack.html">
         <button class="btn2">Track Complaint</button>
       </form>
     </div>
   </div>
 
 
-  <div class="civic">
-    <h2>CivicSense</h2>
-    <p>AI-Powered Digital Grievance System</p>
-    <p>Hackthon/Unbeatable5</p>
-    <p>Kle BK College of BCA, Chikodi</p>
-    <a href="veri.html">Authority</a>
-  </div>
-  <hr>
-  <div class="last">
-
-    <p class="p1"> &copy Unbeatable5.All rights reserved.</p>
-    <div class="p2">
-      <p>privacy Policy </p>
-
-      <p>Terms of service</p>
+  <footer class="premium-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="logo">CivicSense</div>
+        <p>Empowering citizens through AI-driven grievance resolution and transparent governance mapping.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="submit.html">Report Issue</a></li>
+          <li><a href="newtrack.html">Track Status</a></li>
+          <li><a href="nearby.html">Nearby Issues</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="veri.html">Authority Login</a></li>
+        </ul>
+      </div>
     </div>
-  </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 <b>Unbeatable5</b>. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="#"><span class="material-icons-outlined">public</span></a>
+        <a href="#"><span class="material-icons-outlined">chat</span></a>
+        <a href="#"><span class="material-icons-outlined">mail</span></a>
+      </div>
+    </div>
+  </footer>
+
   </div>
   <script src="script.js"></script>
 </body>
