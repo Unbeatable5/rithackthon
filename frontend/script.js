@@ -33,7 +33,7 @@ async function sendMessage() {
     typingMsg.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
 
     try {
-        const response = await fetch("http://localhost:5001/ml/chat", {
+        const response = await fetch(`${apiClient.ML_BASE}/ml/chat`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text })

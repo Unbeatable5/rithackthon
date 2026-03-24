@@ -117,7 +117,7 @@ async function handleClick() {
 
     const aiResult = await simulateAIThinking(async () => {
         try {
-            const response = await fetch("http://localhost:5001/ml/predict", {
+            const response = await fetch(`${apiClient.ML_BASE}/ml/predict`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ text: `${titleVal} ${desc}` })

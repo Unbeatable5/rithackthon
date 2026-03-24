@@ -1,10 +1,16 @@
 // Check if we are running on the backend port or a different dev server
-const SERVER_URL = (window.location.port === "5000") ? "" : `http://${window.location.hostname}:5000`;
+const SERVER_URL = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") 
+    ? "http://localhost:5000" 
+    : "https://rithackthon-2.onrender.com";
+const ML_URL = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+    ? "http://localhost:5001"
+    : "https://rithackthon-2.onrender.com"; // Adjust if ML is on a separate Render service
+
 const API_BASE = SERVER_URL + "/api";
 
 const apiClient = {
-    // Expose for image paths
     BASE: SERVER_URL,
+    ML_BASE: ML_URL,
 
     async post(endpoint, data, isFormData = false) {
         const token = localStorage.getItem("token");
