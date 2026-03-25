@@ -1,6 +1,8 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const Complaint = require('./models/Complaint');
+const Citizen = require('./models/Citizen');
+const FieldWorker = require('./models/FieldWorker');
 
 async function cleanup() {
   try {
@@ -11,12 +13,22 @@ async function cleanup() {
     }
 
     await mongoose.connect(MONGO_URI);
-    console.log("[*] Connected to Atlas for cleanup...");
+    console.log("[*] Connected to Atlas for TOTAL SANITIZATION...");
 
-    const result = await Complaint.deleteMany({ category: 'other' });
-    console.log(`[SUCCESS] Deleted ${result.deletedCount} instances of 'Other' complaints.`);
-    
-    console.log("Database sanitized. Presentation environment is ready.");
+    // 1. Clear All Complaints
+    const compRes = await Complaint.deleteMany({});
+    console.log(`[x] CLEANED: ${compRes.deletedCount} Complaints removed.`);
+
+    // 2. Clear All Citizens
+    const citRes = await Citizen.deleteMany({});
+    console.log(`[x] CLEANED: ${citRes.deletedCount} Citizens wiped.`);
+
+    // 3. Clear All Field Workers
+    const fwRes = await FieldWorker.deleteMany({});
+    console.log(`[x] CLEANED: ${fwRes.deletedCount} Field Workers reset.`);
+
+    console.log("\n✅ Database is now 100% CLEAN (except for Authority accounts).");
+    console.log("Your presentation environment is fresh and ready!");
     process.exit(0);
   } catch (err) {
     console.error("Cleanup failed:", err);

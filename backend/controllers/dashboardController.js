@@ -3,7 +3,8 @@ const Complaint = require('../models/Complaint');
 // GET /api/authority/complaints — dept-filtered list
 exports.listComplaints = async (req, res) => {
   try {
-    const filter = req.deptFilter || {};
+    const filter = { ...(req.deptFilter || {}) };
+    console.log(`[AUTH DEBUG] listComplaints Filter:`, JSON.stringify(filter));
 
     // Optional query filters
     const { status, priority, category, search, page = 1, limit = 20 } = req.query;
@@ -79,7 +80,8 @@ exports.updateComplaint = async (req, res) => {
 
 exports.getDashboardStats = async (req, res) => {
   try {
-    const base = req.deptFilter || {};
+    const base = { ...(req.deptFilter || {}) };
+    console.log(`[AUTH DEBUG] getDashboardStats Filter:`, JSON.stringify(base));
 
     const [total, pending, delayed, high, slaBreached] = await Promise.all([
       Complaint.countDocuments(base),
