@@ -29,85 +29,69 @@ const sendOTP = async (recipient, otp) => {
 };
 
 // POST /api/auth/citizen/register (Aadhaar + Email + Location)
+// Fast-tracked for hackathon since Frontend handles Email OTP
 exports.citizenRegister = async (req, res) => {
   try {
     const { aadhaar, email, location } = req.body;
-    console.log(`[*] Registering citizen: ${email}`);
+    console.log(`[*] Fast-track registration for: ${email}`);
+
     if (!aadhaar || !/^\d{12}$/.test(aadhaar)) {
       return res.status(400).json({ error: 'Valid 12-digit Aadhaar number required' });
     }
 
-    // Hash Aadhaar for privacy
-    const aadhaarHash = await bcrypt.hash(aadhaar, 10);
     const aadhaarMasked = `XXXX-XXXX-${aadhaar.slice(-4)}`;
-
-    // Find existing citizen by email OR checking hashed Aadhaar
+    
+    // Find existing citizen by email (Unique and Fast)
     let citizen = await Citizen.findOne({ email: email?.toLowerCase() });
     
+    // If not found by email, check if another user has the SAME masked Aadhaar (optional fallback)
     if (!citizen) {
-      const allCitizens = await Citizen.find({});
-      for (const c of allCitizens) {
-        if (c.aadhaarHash && await bcrypt.compare(aadhaar, c.aadhaarHash)) {
-          citizen = c;
-          break;
-        }
-      }
+      citizen = await Citizen.findOne({ aadhaarMasked });
     }
 
-    // Check if banned
     if (citizen && citizen.isBanned) {
       return res.status(403).json({ error: '🚫 Your account has been suspended due to repeated false complaints.' });
     }
 
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
-
     if (citizen) {
-      citizen.otp = otp;
-      citizen.otpExpiry = otpExpiry;
-      if (email) citizen.email = email; // Update email if provided
-      if (location) citizen.location = location; // Update location if provided
-      
-      // Ensure Aadhaar info is present (fixes validation error for legacy/incomplete records)
-      if (!citizen.aadhaarHash) citizen.aadhaarHash = aadhaarHash;
-      if (!citizen.aadhaarMasked) citizen.aadhaarMasked = aadhaarMasked;
-      
+      // Update existing record
+      if (email) citizen.email = email.toLowerCase();
+      if (location) citizen.location = location;
+      citizen.isVerified = true;
       await citizen.save();
     } else {
+      // Create new record
+      // We still store a hash for security, but we don't block on the loop
+      const aadhaarHash = await bcrypt.hash(aadhaar, 10);
       citizen = await Citizen.create({
         name: `Citizen-${aadhaar.slice(-4)}`,
-        email: email || undefined,
+        email: email?.toLowerCase(),
         location: location || undefined,
         aadhaarHash,
         aadhaarMasked,
-        passwordHash: 'otp_only',
-        otp,
-        otpExpiry
+        passwordHash: 'otp_verified_via_frontend',
+        isVerified: true
       });
     }
 
-    // Send OTP to the real email address if provided, otherwise fallback to masked Aadhaar (mock mode)
-    const recipient = email || aadhaarMasked;
-    const sent = await sendOTP(recipient, otp);
-    
-    console.log(`[AUTH] OTP for ${recipient}: ${otp}`);
-    
-    // Sign token directly for hackathon/frictionless flow
+    // Direct Login - No second OTP needed
     const token = signToken(citizen._id, 'citizen');
+    console.log(`[AUTH] Fast-track Success: ${citizen.email}`);
 
     res.status(200).json({
-      message: sent ? 'OTP sent!' : 'OTP generated (Mock Mode)',
-      isMock: !sent,
+      message: 'Identity Linked Successfully',
       token,
       citizen: { 
         id: citizen._id, 
         name: citizen.name, 
+        email: citizen.email,
         aadhaarMasked: citizen.aadhaarMasked,
         location: citizen.location
       }
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('[AUTH ERROR]', err.message);
+    res.status(500).json({ error: 'Secure Link Synchronization Failed. Please retry.' });
   }
 };
 
