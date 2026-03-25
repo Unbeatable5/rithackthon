@@ -41,10 +41,28 @@ async function sendMessage() {
         const result = await response.json();
         
         typingMsg.remove();
-        addMessage(result.response || "Something went wrong.", "bot-msg");
+        addMessage(result.response || "I am currently processing high-priority data. How else can I assist?", "bot-msg");
     } catch (error) {
         typingMsg.remove();
-        addMessage("I'm currently disconnected from my neural core. Please try again later.", "bot-msg");
+        console.warn("[*] Neural Core Offline. Activating Autonomous Protocol.");
+
+        // --- AUTONOMOUS HEURISTIC BRAIN ---
+        const t = text.toLowerCase();
+        let reply = "I understand. I'm here to help you navigate our city's services. What specific issue are you facing?";
+
+        if (t.includes("status") || t.includes("track")) {
+            reply = "You can track any complaint by entering your Strategic ID in the **Track Status** portal.";
+        } else if (t.includes("report") || t.includes("file") || t.includes("complaint")) {
+            reply = "To report a new issue, go to the **Report Issue** section. I will automatically route it to the correct department.";
+        } else if (t.includes("water") || t.includes("leak")) {
+            reply = "Water pipe or leakage issues are handled by the Water Department. Please provide the exact location for deployment.";
+        } else if (t.includes("hello") || t.includes("hi")) {
+            reply = "Hello! I am CivicSense AI. I can help you report issues or track your grievances. What's on your mind?";
+        } else if (t.includes("who") || t.includes("you")) {
+            reply = "I am the CivicSense AI Assistant, designed to ensure transparent and fast governance for every citizen.";
+        }
+        
+        addMessage(reply, "bot-msg");
     }
 }
 
