@@ -55,5 +55,9 @@ if __name__ == "__main__":
     else:
         print("[*] AI Models loaded successfully.")
     
-    print("[*] ML Service starting on port 5001...")
-    app.run(port=5001, debug=True)
+    # Get port from environment or fallback to 5001
+    port = int(os.environ.get('PORT', 5001))
+    print(f"[*] ML Service starting on 0.0.0.0:{port}...")
+    
+    # Important: host='0.0.0.0' for Render/Cloud binding
+    app.run(host='0.0.0.0', port=port, debug=False)
