@@ -104,6 +104,14 @@ verifyEmailBtn.onclick = async () => {
         // Logic for Direct Aadhaar Login after Email Verification
         let aadhaar = aadhaarInput.value.trim().replace(/\s/g, '');
         const email = emailInput.value.trim();
+        
+        // Collect Location Details
+        const location = {
+            address: document.getElementById("addressInput").value.trim(),
+            city: document.getElementById("cityInput").value.trim(),
+            state: document.getElementById("stateInput").value.trim(),
+            zip: document.getElementById("zipInput").value.trim()
+        };
 
         if (!/^\d{12}$/.test(aadhaar)) {
             emailMsg.style.color = "red";
@@ -111,11 +119,17 @@ verifyEmailBtn.onclick = async () => {
             return;
         }
 
+        if (!location.address || !location.city || !location.state || !location.zip) {
+            emailMsg.style.color = "red";
+            emailMsg.innerText = "Please fill in all location details.";
+            return;
+        }
+
         try {
             const response = await fetch(`${apiClient.BASE}/api/auth/citizen/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ aadhaar, email })
+                body: JSON.stringify({ aadhaar, email, location })
             });
             const result = await response.json();
 

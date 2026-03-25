@@ -28,10 +28,10 @@ const sendOTP = async (recipient, otp) => {
   }
 };
 
-// POST /api/auth/citizen/register (Aadhaar + Email)
+// POST /api/auth/citizen/register (Aadhaar + Email + Location)
 exports.citizenRegister = async (req, res) => {
   try {
-    const { aadhaar, email } = req.body;
+    const { aadhaar, email, location } = req.body;
     console.log(`[*] Registering citizen: ${email}`);
     if (!aadhaar || !/^\d{12}$/.test(aadhaar)) {
       return res.status(400).json({ error: 'Valid 12-digit Aadhaar number required' });
@@ -66,6 +66,7 @@ exports.citizenRegister = async (req, res) => {
       citizen.otp = otp;
       citizen.otpExpiry = otpExpiry;
       if (email) citizen.email = email; // Update email if provided
+      if (location) citizen.location = location; // Update location if provided
       
       // Ensure Aadhaar info is present (fixes validation error for legacy/incomplete records)
       if (!citizen.aadhaarHash) citizen.aadhaarHash = aadhaarHash;
@@ -76,6 +77,7 @@ exports.citizenRegister = async (req, res) => {
       citizen = await Citizen.create({
         name: `Citizen-${aadhaar.slice(-4)}`,
         email: email || undefined,
+        location: location || undefined,
         aadhaarHash,
         aadhaarMasked,
         passwordHash: 'otp_only',
@@ -97,7 +99,12 @@ exports.citizenRegister = async (req, res) => {
       message: sent ? 'OTP sent!' : 'OTP generated (Mock Mode)',
       isMock: !sent,
       token,
-      citizen: { id: citizen._id, name: citizen.name, aadhaarMasked: citizen.aadhaarMasked }
+      citizen: { 
+        id: citizen._id, 
+        name: citizen.name, 
+        aadhaarMasked: citizen.aadhaarMasked,
+        location: citizen.location
+      }
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

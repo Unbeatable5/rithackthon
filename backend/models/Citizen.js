@@ -8,6 +8,12 @@ const CitizenSchema = new mongoose.Schema({
   aadhaarMasked:  { type: String, required: true },               // e.g. XXXX-XXXX-3456
   passwordHash:   { type: String, required: true },
   isVerified:     { type: Boolean, default: false },
+  location: {
+    address: { type: String, trim: true },
+    city:    { type: String, trim: true },
+    state:   { type: String, trim: true },
+    zip:     { type: String, trim: true }
+  },
   otp:            { type: String },
   otpExpiry:      { type: Date },
   complaintCount: { type: Number, default: 0 },                   // anti-fake: rate limit

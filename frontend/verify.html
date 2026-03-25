@@ -44,16 +44,35 @@
     <div class="input-group">
       <label>Aadhaar Number</label>
       <div class="input-wrapper">
-        <span class="material-icons-outlined field-icon">fingerprint</span>
         <input id="userInput" type="text" inputmode="numeric" maxlength="12" placeholder="1234 5678 9012">
+      </div>
+    </div>
+
+    <!-- Location Section -->
+    <div id="locationSection" class="input-group">
+      <label>Residence Details</label>
+      <div class="input-wrapper">
+        <input id="addressInput" type="text" placeholder="Street Address / Area" required>
+      </div>
+      <div class="input-row" style="display: flex; gap: 10px; margin-top: 10px; width: 100%;">
+        <div class="input-wrapper" style="flex: 1; min-width: 0;">
+          <input id="cityInput" type="text" placeholder="City" required style="width: 100%;">
+        </div>
+        <div class="input-wrapper" style="flex: 1; min-width: 0;">
+          <input id="stateInput" type="text" placeholder="State" required style="width: 100%;">
+        </div>
+      </div>
+      <div class="input-wrapper" style="margin-top: 10px;">
+        <input id="zipInput" type="text" pattern="\d{6}" maxlength="6" inputmode="numeric"
+          placeholder="6-digit PIN Code" required>
+
       </div>
     </div>
 
     <!-- Email Section -->
     <div id="emailSection" class="input-group">
-      <label>Email Address <span style="color:#94a3b8; font-weight:400; font-size:0.75rem;"></span></label>
+      <label>Email Address</label>
       <div class="input-wrapper">
-        <span class="material-icons-outlined field-icon">alternate_email</span>
         <input id="emailInput" type="email" placeholder="name@domain.com">
         <button id="sendEmailOtpBtn" class="inline-btn">SEND OTP</button>
       </div>
@@ -63,7 +82,6 @@
     <div id="emailOtpWrapper" class="input-group hidden">
       <label>Security Code (Email)</label>
       <div class="input-wrapper">
-        <span class="material-icons-outlined field-icon">security</span>
         <input id="emailOtpInput" type="text" maxlength="6" inputmode="numeric" placeholder="6-digit code">
         <button id="verifyEmailOtpBtn" class="inline-btn blue-btn">VERIFY</button>
       </div>
