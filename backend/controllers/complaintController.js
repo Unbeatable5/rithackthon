@@ -4,12 +4,29 @@ const Complaint = require('../models/Complaint');
 
 const ML_URL = process.env.ML_SERVICE_URL || 'http://localhost:5001';
 
-// Helper: call Python ML classifier
+// Helper: call Python ML classifier with Keyword Fallback
 const classifyComplaint = async (text) => {
   try {
-    const { data } = await axios.post(`${ML_URL}/ml/predict`, { text }, { timeout: 5000 });
-    return data; // { category, priority, aiCategoryConfidence, aiPriorityConfidence }
-  } catch {
+    const { data } = await axios.post(`${ML_URL}/ml/predict`, { text }, { timeout: 3000 });
+    if (data && data.category) return data;
+    throw new Error('Invalid ML response');
+  } catch (err) {
+    console.log('[*] ML Service Unreachable or Failed. Using Regex Fallback...');
+    const t = text.toLowerCase();
+    
+    // Keyword matching logic
+    if (t.includes('water') || t.includes('leak') || t.includes('pipe') || t.includes('drainage')) 
+      return { category: 'water', priority: 'high', aiCategoryConfidence: 0.7, aiPriorityConfidence: 0.7 };
+    
+    if (t.includes('road') || t.includes('pothole') || t.includes('street') || t.includes('hazard'))
+      return { category: 'road', priority: 'medium', aiCategoryConfidence: 0.7, aiPriorityConfidence: 0.7 };
+      
+    if (t.includes('light') || t.includes('electric') || t.includes('power') || t.includes('shock'))
+      return { category: 'electrical', priority: 'urgent', aiCategoryConfidence: 0.7, aiPriorityConfidence: 0.7 };
+
+    if (t.includes('garbage') || t.includes('waste') || t.includes('trash') || t.includes('cleaning') || t.includes('sanitation'))
+      return { category: 'sanitation', priority: 'medium', aiCategoryConfidence: 0.7, aiPriorityConfidence: 0.7 };
+
     return { category: 'other', priority: 'medium', aiCategoryConfidence: 0, aiPriorityConfidence: 0 };
   }
 };
